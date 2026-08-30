@@ -59,6 +59,13 @@
   --maxw: 1180px;
   --gutter: clamp(20px, 5vw, 40px);
   --band: clamp(64px, 9vw, 104px); /* vertical section rhythm */
+
+  /* Motion — one curve, three durations. Everything that moves uses these,
+     so the whole site decelerates the same way. */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur: 260ms;
+  --dur-slow: 620ms;
 }
 
 :root[data-theme="dark"] {
@@ -202,11 +209,11 @@ textarea {
   margin-bottom: 0;
 }
 
-/* The old markup wraps a highlighted fragment in <span>. Keep it typographic
-   rather than coloured — italic display type instead of a second colour. */
+/* The markup wraps part of some titles in a <span>. It carries no styling —
+   headings read as one continuous phrase. */
 .section-title span {
-  font-style: italic;
-  font-weight: 400;
+  font: inherit;
+  color: inherit;
 }
 
 /* A hairline rule replaces the old gradient underline. */
@@ -398,19 +405,12 @@ nav {
   color: var(--maroon);
 }
 
-/* Active state — a single gold mark, the accent's one job in the header */
+/* Active state — a single gold mark, the accent's one job in the header.
+   The underline itself is drawn in the micro-interactions section, so hover
+   and active share one element. */
 .nav-links > li > a.active {
   color: var(--ink);
   font-weight: 600;
-}
-.nav-links > li > a.active::after {
-  content: "";
-  position: absolute;
-  left: 13px;
-  right: 13px;
-  bottom: 2px;
-  height: 2px;
-  background: var(--gold);
 }
 
 .has-dropdown {
@@ -607,11 +607,6 @@ nav {
   color: #fff;
   margin-bottom: 22px;
 }
-.hero h1 em {
-  font-style: italic;
-  font-weight: 400;
-}
-
 .hero-sub {
   font-size: clamp(1rem, 1.4vw, 1.1rem);
   line-height: 1.7;
@@ -1749,37 +1744,73 @@ footer {
 }
 
 /* ==========================================================================
+   20b. ENTRANCE — first paint
+   The page above the fold is not scroll-revealed (it is already in view), so
+   it gets a short, staggered rise instead of appearing all at once. Gated on
+   .js so a scriptless browser sees the finished state immediately.
+   ========================================================================== */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.js .hero-content > *,
+.js .hero-visual,
+.js .inner-hero-content > * {
+  animation: rise var(--dur-slow) var(--ease) backwards;
+}
+
+/* Four beats, ~70ms apart — enough to read as sequence, not as a show. */
+.js .hero-content > *:nth-child(1) { animation-delay: 60ms; }
+.js .hero-content > *:nth-child(2) { animation-delay: 130ms; }
+.js .hero-content > *:nth-child(3) { animation-delay: 200ms; }
+.js .hero-content > *:nth-child(4) { animation-delay: 270ms; }
+.js .hero-visual                   { animation-delay: 200ms; }
+
+.js .inner-hero-content > *:nth-child(1) { animation-delay: 40ms; }
+.js .inner-hero-content > *:nth-child(2) { animation-delay: 110ms; }
+.js .inner-hero-content > *:nth-child(3) { animation-delay: 180ms; }
+
+/* ==========================================================================
    21. MOTION — one reveal pattern, honoured site-wide
    ========================================================================== */
-.reveal,
-.reveal-left,
-.reveal-right,
-.stagger-card {
+/* Only scripted browsers hide content ahead of the reveal, so a scriptless
+   one never ends up with a permanently invisible page. */
+.js .reveal,
+.js .reveal-left,
+.js .reveal-right,
+.js .stagger-card {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(14px);
   transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
+    opacity var(--dur-slow) var(--ease),
+    transform var(--dur-slow) var(--ease);
 }
-.reveal.active,
-.reveal-left.active,
-.reveal-right.active,
-.stagger-card.active {
+.js .reveal.active,
+.js .reveal-left.active,
+.js .reveal-right.active,
+.js .stagger-card.active {
   opacity: 1;
   transform: none;
 }
 
-/* Legacy hero stagger hooks — resolved immediately {
-  opacity: 1;
-}
-
+/* Anyone who has asked their system for less motion gets none of it: no
+   entrance, no reveal, no hover travel — just the finished page. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
   .reveal,
@@ -1789,6 +1820,176 @@ footer {
     opacity: 1;
     transform: none;
   }
+  .js .hero-content > *,
+  .js .hero-visual,
+  .js .inner-hero-content > * {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   21c. MICRO-INTERACTIONS
+   Motion that reports state: what is hoverable, what was pressed, what
+   just changed. Nothing here moves unless the user does something.
+   ========================================================================== */
+
+/* Nav — an underline that grows from the left on hover, meeting the
+   persistent gold mark that indicates the current page. */
+.nav-links > li > a::after {
+  content: "";
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--maroon);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur) var(--ease);
+}
+.nav-links > li > a:hover::after {
+  transform: scaleX(1);
+}
+.nav-links > li > a.active::after {
+  background: var(--gold);
+  transform: scaleX(1);
+}
+
+/* Buttons — a small lift on hover, and a real press on click. */
+.btn-primary,
+.btn-gold,
+.btn-outline,
+.btn-hero-outline,
+.rc-btn {
+  transition:
+    color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+.btn-primary:hover,
+.btn-gold:hover,
+.btn-outline:hover,
+.btn-hero-outline:hover,
+.rc-btn:hover {
+  transform: translateY(-1px);
+}
+.btn-primary:active,
+.btn-gold:active,
+.btn-outline:active,
+.btn-hero-outline:active,
+.rc-btn:active {
+  transform: translateY(0);
+  transition-duration: 60ms;
+}
+
+/* Text links that already underline — animate the offset rather than
+   toggling decoration on and off. */
+.contact-row dd a,
+.footer-bottom a,
+.accordion-body a {
+  transition:
+    color var(--dur-fast) var(--ease),
+    text-underline-offset var(--dur-fast) var(--ease);
+}
+.contact-row dd a:hover,
+.footer-bottom a:hover {
+  text-underline-offset: 4px;
+}
+
+/* Cards — the whole surface responds, and the heading picks up the accent. */
+.q-card h3,
+.linkage-card h3,
+.holding-card h3,
+.arrival-body h4,
+.rc-name {
+  transition: color var(--dur) var(--ease);
+}
+.q-card:hover h3,
+.linkage-card:hover h3,
+.arrival-card:hover .arrival-body h4 {
+  color: var(--maroon);
+}
+
+.linkage-card,
+.program-info-card,
+.pbc-card {
+  transition: background-color var(--dur) var(--ease);
+}
+.linkage-card:hover,
+.program-info-card:hover,
+.pbc-card:hover {
+  background: var(--paper-alt);
+}
+
+/* Images — a slow, small scale so a hover reads as "this is a link". */
+.arrival-img,
+.collage-item,
+.home-featured-media {
+  overflow: hidden;
+}
+.arrival-img img,
+.collage-item img,
+.avp-thumbnail img {
+  transition:
+    transform var(--dur-slow) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+.arrival-card:hover .arrival-img img,
+.collage-item:hover img {
+  transform: scale(1.03);
+}
+
+/* Footer and drawer links slide a little toward the reader. */
+.footer-col ul a,
+.drawer-nav a,
+.hic-stat {
+  transition:
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+.footer-col ul a:hover,
+.drawer-nav a:hover {
+  transform: translateX(3px);
+}
+
+/* Tab panels fade in on switch, so the content change is legible. */
+.js .tab-panel.active {
+  animation: rise var(--dur) var(--ease);
+}
+
+/* Accordion body fades with the height change rather than snapping. */
+.accordion-body > * {
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.accordion-item.open .accordion-body > * {
+  opacity: 1;
+  transition-delay: 60ms;
+}
+
+/* Switching theme cross-fades the surfaces instead of snapping. The class is
+   applied only for the duration of the toggle, so it never affects load. */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease) !important;
+}
+
+/* Sticky header settles onto a hairline as the page leaves the top. */
+#main-header {
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+#main-header.sticky {
+  box-shadow: 0 1px 0 rgba(36, 31, 28, 0.04);
 }
 
 /* ==========================================================================

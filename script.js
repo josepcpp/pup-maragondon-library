@@ -74,15 +74,20 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     revealEls.forEach((el) => revealObs.observe(el));
 
-    // Grid children fade in together rather than one-by-one — the old
-    // per-card cascade read as decoration rather than hierarchy.
+    // Grid children come in on a short cascade — 55ms apart, capped so a long
+    // grid never turns into a queue the reader has to wait out.
+    const STEP = 55;
+    const MAX_DELAY = 280;
+
     document
       .querySelectorAll(
-        ".quick-grid, .arrivals-grid, .resources-grid-v2, .linkages-grid, .holdings-grid, .steps-grid, .personnel-big-grid",
+        ".quick-grid, .arrivals-grid, .resources-grid-v2, .linkages-grid, .holdings-grid, .steps-grid, .personnel-big-grid, .program-info-grid",
       )
       .forEach((container) => {
-        const children = container.querySelectorAll(":scope > *");
-        children.forEach((child) => child.classList.add("stagger-card"));
+        container.querySelectorAll(":scope > *").forEach((child, i) => {
+          child.classList.add("stagger-card");
+          child.style.transitionDelay = Math.min(i * STEP, MAX_DELAY) + "ms";
+        });
 
         const obs = new IntersectionObserver(
           (entries, observer) => {
@@ -313,38 +318,42 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 })();
 
-/* ── Theme toggle ───────────────────────────────────────────────────────── */
+/* ── Theme toggle ───────────────────────────────────────────────────────────
+   The theme itself is already applied by the inline script in <head>, before
+   first paint. This only syncs the button and handles the switch. */
 (function () {
+  const root = document.documentElement;
   const btn = document.getElementById("theme-toggle");
   const icon = document.getElementById("theme-icon");
   if (!btn) return;
 
-  function applyTheme(dark) {
-    document.documentElement.setAttribute(
-      "data-theme",
-      dark ? "dark" : "light",
-    );
+  function syncButton(dark) {
     if (icon) icon.className = dark ? "fa-solid fa-sun" : "fa-solid fa-moon";
     btn.setAttribute("aria-pressed", String(dark));
+    btn.setAttribute(
+      "aria-label",
+      dark ? "Switch to light mode" : "Switch to dark mode",
+    );
   }
 
-  let saved = null;
-  try {
-    saved = localStorage.getItem("pup-theme");
-  } catch (e) {
-    /* storage unavailable — fall back to system preference */
-  }
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  applyTheme(saved ? saved === "dark" : prefersDark);
+  syncButton(root.getAttribute("data-theme") === "dark");
 
+  let settle;
   btn.addEventListener("click", function () {
-    const isDark =
-      document.documentElement.getAttribute("data-theme") === "dark";
-    applyTheme(!isDark);
+    const dark = root.getAttribute("data-theme") !== "dark";
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      root.classList.add("theme-transition");
+      clearTimeout(settle);
+      settle = setTimeout(() => root.classList.remove("theme-transition"), 320);
+    }
+
+    root.setAttribute("data-theme", dark ? "dark" : "light");
+    syncButton(dark);
     try {
-      localStorage.setItem("pup-theme", !isDark ? "dark" : "light");
+      localStorage.setItem("pup-theme", dark ? "dark" : "light");
     } catch (e) {
-      /* non-fatal */
+      /* storage unavailable — the choice just will not persist */
     }
   });
 })();

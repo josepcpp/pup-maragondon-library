@@ -47,6 +47,41 @@
   --radius-lg: 6px;
   --sidebar-w: 244px;
   --topbar-h: 60px;
+
+  /* Motion — the same curve and durations as the public site */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur: 260ms;
+}
+
+/* A short settle on the content area so navigating between admin pages does
+   not snap. The chrome (sidebar, topbar) stays put — only the panel moves. */
+@keyframes adminRise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.admin-content {
+  animation: adminRise var(--dur) var(--ease) backwards;
+}
+
+.flash {
+  animation: adminRise var(--dur) var(--ease) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* ── Reset ── */

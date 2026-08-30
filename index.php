@@ -32,9 +32,23 @@ $has_featured   = $featured_title !== '' && $featured_title !== 'Featured Resour
   <title><?= htmlspecialchars($s['site_title'] ?? 'PUP Maragondon – University Library') ?></title>
   <meta name="description" content="<?= htmlspecialchars($hero_tagline ?: 'Collections, research archives, and digital resources of the PUP Maragondon Campus Library.') ?>">
   <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <script>
+    // Set the theme before first paint so dark-mode users never see a light flash,
+    // and mark the document as scripted so CSS can gate entrance animations.
+    (function () {
+      var d = document.documentElement;
+      d.classList.add("js");
+      var t = null;
+      try { t = localStorage.getItem("pup-theme"); } catch (e) {}
+      if (!t) {
+        t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      d.setAttribute("data-theme", t);
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <script>
@@ -53,7 +67,7 @@ $has_featured   = $featured_title !== '' && $featured_title !== 'Featured Resour
 
     <div class="hero-content">
       <p class="hero-eyebrow">PUP Maragondon Campus</p>
-      <h1>Discover, <em>Learn,</em><br>and Innovate.</h1>
+      <h1>Discover, Learn,<br>and Innovate.</h1>
       <p class="hero-sub"><?= htmlspecialchars($hero_tagline ?: 'Your gateway to PUP Maragondon\'s collections, theses, Filipiniana, and digital resources — available anytime, anywhere.') ?></p>
       <div class="hero-actions">
         <a href="<?= htmlspecialchars($opac_url) ?>" target="_blank" rel="noopener" class="btn-gold">
