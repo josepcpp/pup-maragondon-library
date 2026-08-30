@@ -17,14 +17,44 @@ php_flag  log_errors     On
     Header always set X-XSS-Protection "1; mode=block"
 </IfModule>
 
+# ── Caching ────────────────────────────────────────────────────────
+# Written with mod_headers rather than mod_expires: mod_expires is not
+# enabled in the default XAMPP build (and often not on shared hosting), so an
+# <IfModule mod_expires.c> block would silently do nothing.
+#
+# Assets carry no version in their filenames, so lifetimes are deliberately
+# bounded — a stale stylesheet corrects itself within a day rather than a
+# year. Append a ?v= query to the asset links to cache them for longer.
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "max-age=86400, public"
+    </FilesMatch>
+
+    # Uploads get a unique filename each time, so they can be held longer.
+    <FilesMatch "\.(png|jpe?g|gif|webp|svg|ico|woff2?)$">
+        Header set Cache-Control "max-age=2592000, public"
+    </FilesMatch>
+
+    <FilesMatch "\.pdf$">
+        Header set Cache-Control "max-age=604800, public"
+    </FilesMatch>
+
+    # Pages are rendered from editable content — never serve them from cache.
+    <FilesMatch "\.php$">
+        Header always set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# ── Legacy .html URLs ──────────────────────────────────────────────
+# Sends /about.html to /about.php when that page exists.
+# The previous version substituted %{REQUEST_URI:r}, which is not valid
+# Apache syntax: it expanded to the server's absolute filesystem path and
+# produced a broken 301 that leaked it in the Location header.
+# The target is written as %1 (the URL path captured from REQUEST_URI, so it
+# starts with "/") rather than $1. In a .htaccess file a relative substitution
+# is resolved against the filesystem directory, which is how the old rule
+# ended up emitting a local path as a URL.
 RewriteEngine On
-
-# Redirect .html requests to .php if a .php version exists
-RewriteCond %{REQUEST_URI} ^/library-website1/(.+)\.html$
-RewriteCond %{DOCUMENT_ROOT}/library-website1/%1.php -f
-RewriteRule ^(.+)\.html$ %{REQUEST_URI:r}.php [R=301,L]
-
-# Generic fallback for root requests
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^(.+)\.html$ $1.php [R=301,L]
+RewriteCond %{REQUEST_URI} ^(.+)\.html$
+RewriteCond %{DOCUMENT_ROOT}%1.php -f
+RewriteRule \.html$ %1.php [R=301,L]

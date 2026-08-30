@@ -12,21 +12,27 @@ $error = '';
 $warning = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Read the username first: the rate limit is scoped to it, so it has to
+    // be known before the check runs.
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+
     if (!csrf_verify()) {
         $error = 'Invalid request. Please try again.';
-    } elseif (!check_rate_limit()) {
-        $remaining = ceil(lockout_seconds_remaining() / 60);
+    } elseif ($username === '') {
+        // Nothing to rate-limit against, and a blank name can never match.
+        $error = 'Invalid username or password.';
+    } elseif (login_is_locked($attempt = login_register_attempt($username))) {
+        $remaining = max(1, (int)ceil(lockout_seconds_remaining($username) / 60));
         $error = "Too many failed attempts. Please wait {$remaining} minute(s) before trying again.";
     } else {
-        $username = trim($_POST['username'] ?? '');
-        $password = $_POST['password'] ?? '';
         $cred = cms_get_credentials();
 
         $valid_user = hash_equals($cred['username'], $username);
         $valid_pass = password_verify($password, $cred['password_hash']);
 
         if ($valid_user && $valid_pass) {
-            reset_login_attempts();
+            reset_login_attempts($username);
             session_regenerate_id(true);
             $_SESSION['admin_logged_in']  = true;
             $_SESSION['admin_user']       = $username;
@@ -36,10 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: ' . $redirect);
             exit;
         } else {
-            record_failed_login();
-            $attempts_left = MAX_LOGIN_ATTEMPTS - ($_SESSION['login_attempts'] ?? 0);
-            $error = "Invalid username or password." .
-                ($attempts_left > 0 ? " {$attempts_left} attempt(s) remaining." : '');
+            $left  = max(0, MAX_LOGIN_ATTEMPTS - $attempt);
+            $error = 'Invalid username or password.'
+                   . ($left > 0 ? " {$left} attempt(s) remaining." : ' This account is now temporarily locked.');
         }
     }
 }

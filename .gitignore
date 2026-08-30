@@ -10,9 +10,10 @@ _backup_pre_rework/
 *.orig
 
 # ── CMS runtime artefacts ───────────────────────────────────────────
-# Atomic-write lock/temp files produced by cms_save()
+# Persistent flock() files and tempnam() scratch files from the atomic writers
 data/*.lock
-data/*.json.tmp
+data/*.tmp
+data/tmp*
 
 # Per-save content snapshots. Local editing history, not source.
 data/_versions/

@@ -27,6 +27,17 @@ define('SESSION_TIMEOUT',    7200);
 define('MAX_LOGIN_ATTEMPTS', 5);
 define('LOCKOUT_TIME',       900);
 
+// Failed-login store. Kept on disk, not in the session: a session counter
+// resets the moment the client drops its cookie, which makes it useless
+// against a script.
+define('ATTEMPTS_FILE',   DATA_PATH . 'login-attempts.json');
+define('ATTEMPTS_MAX_KEYS', 500);  // hard cap so the file cannot grow without bound
+
+// Reverse proxies whose X-Forwarded-For header may be believed. Empty by
+// default: trusting the header without knowing the peer lets anyone spoof
+// their address and sidestep the limit entirely.
+define('TRUSTED_PROXIES', []);
+
 // Allowed image types
 define('ALLOWED_MIME', ['image/jpeg','image/png','image/gif','image/webp']);
 define('ALLOWED_EXT',  ['jpg','jpeg','png','gif','webp']);
@@ -73,7 +84,6 @@ function cms_load(string $file): array {
 function cms_save(string $file, array $data): bool {
     $path = DATA_PATH . $file;
     $lock = $path . '.lock';
-    $tmp  = $path . '.tmp';
 
     // json_encode() returns false on malformed UTF-8. Writing that would put an
     // empty string on disk and still report success, replacing good content
@@ -84,20 +94,48 @@ function cms_save(string $file, array $data): bool {
         return false;
     }
 
+    // The lock file is never deleted. Removing it after unlocking breaks the
+    // mutual exclusion it exists for: a writer already blocked on flock() ends
+    // up holding a lock on an unlinked inode while the next writer creates a
+    // fresh lock file and enters the critical section at the same time.
     $fh = fopen($lock, 'c');
-    if (!$fh) return false;
-    flock($fh, LOCK_EX);
+    if (!$fh) {
+        error_log('cms_save: cannot open lock ' . $lock);
+        return false;
+    }
+    if (!flock($fh, LOCK_EX)) {
+        fclose($fh);
+        error_log('cms_save: cannot lock ' . $lock);
+        return false;
+    }
 
     // Snapshot the file as it stands before replacing it, inside the lock so
     // the copy is of content no other writer is midway through changing.
     cms_snapshot($file);
 
-    $ok = file_put_contents($tmp, $json) !== false && rename($tmp, $path);
+    // A unique temp file per writer. A shared name let two concurrent saves
+    // write into the same path and rename each other's half-written content.
+    // tempnam() keeps it in DATA_PATH, so the rename stays on one filesystem
+    // and therefore stays atomic.
+    $ok  = false;
+    $tmp = tempnam(DATA_PATH, 'tmp');
+    if ($tmp === false) {
+        error_log('cms_save: cannot create temp file in ' . DATA_PATH);
+    } elseif (file_put_contents($tmp, $json) === false) {
+        error_log('cms_save: cannot write temp file for ' . $file);
+        @unlink($tmp);
+    } else {
+        // tempnam() creates the file 0600; content files need to stay readable.
+        @chmod($tmp, 0644);
+        $ok = rename($tmp, $path);
+        if (!$ok) {
+            error_log('cms_save: rename failed for ' . $file);
+            @unlink($tmp);
+        }
+    }
+
     flock($fh, LOCK_UN);
     fclose($fh);
-    // Clean up orphaned temp and lock files
-    @unlink($lock);
-    if (!$ok) @unlink($tmp);
     return $ok;
 }
 

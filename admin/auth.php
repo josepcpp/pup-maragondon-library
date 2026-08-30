@@ -84,29 +84,127 @@ function flash_get(string $key): string {
     return $msg;
 }
 
-// Rate limiting for login
-function check_rate_limit(): bool {
-    $attempts  = $_SESSION['login_attempts']  ?? 0;
-    $last_fail = $_SESSION['login_last_fail'] ?? 0;
-    if ($attempts >= MAX_LOGIN_ATTEMPTS) {
-        if (time() - $last_fail < LOCKOUT_TIME) {
-            return false; // Still locked out
+// ── Login rate limiting ───────────────────────────────────────────
+// Counters live in data/login-attempts.json, keyed by client address and
+// attempted username. The session is kept as a second layer only; on its
+// own it stops nothing, because dropping the cookie starts a fresh count.
+
+/**
+ * The client's address. A forwarded header is only believed when the direct
+ * peer is a configured proxy — otherwise anyone could set the header and get
+ * a fresh bucket per request.
+ */
+function client_ip(): string {
+    $peer = $_SERVER['REMOTE_ADDR'] ?? '';
+
+    if (TRUSTED_PROXIES && in_array($peer, TRUSTED_PROXIES, true)) {
+        $fwd = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
+        foreach (explode(',', $fwd) as $hop) {
+            $hop = trim($hop);
+            if (filter_var($hop, FILTER_VALIDATE_IP)) return $hop;
         }
-        // Lockout expired, reset
-        $_SESSION['login_attempts']  = 0;
-        $_SESSION['login_last_fail'] = 0;
     }
-    return true;
+
+    return filter_var($peer, FILTER_VALIDATE_IP) ? $peer : '0.0.0.0';
 }
-function record_failed_login(): void {
-    $_SESSION['login_attempts']  = ($_SESSION['login_attempts'] ?? 0) + 1;
-    $_SESSION['login_last_fail'] = time();
+
+/** Opaque bucket id. The username is hashed rather than stored in the clear. */
+function rate_limit_key(string $username): string {
+    return substr(hash('sha256', client_ip() . '|' . strtolower(trim($username))), 0, 32);
 }
-function reset_login_attempts(): void {
-    $_SESSION['login_attempts']  = 0;
-    $_SESSION['login_last_fail'] = 0;
+
+/**
+ * Read-modify-write the attempt store under an exclusive lock, so two
+ * simultaneous failures cannot both read "2" and both write "3".
+ * $mutate receives the store by reference and may return a value.
+ */
+function attempts_transaction(callable $mutate) {
+    $lock = ATTEMPTS_FILE . '.lock';
+    $fh   = fopen($lock, 'c');
+    if (!$fh) return null;
+
+    flock($fh, LOCK_EX);
+
+    $store = json_decode((string)@file_get_contents(ATTEMPTS_FILE), true);
+    if (!is_array($store)) $store = [];
+
+    $before = $store;
+    $result = $mutate($store);
+
+    if ($store !== $before) {
+        // Drop buckets that can no longer lock anyone out, then cap the file.
+        $cutoff = time() - LOCKOUT_TIME;
+        $store  = array_filter($store, fn($e) => ($e['last_fail'] ?? 0) > $cutoff);
+        if (count($store) > ATTEMPTS_MAX_KEYS) {
+            uasort($store, fn($a, $b) => ($b['last_fail'] ?? 0) <=> ($a['last_fail'] ?? 0));
+            $store = array_slice($store, 0, ATTEMPTS_MAX_KEYS, true);
+        }
+
+        $json = json_encode($store, JSON_PRETTY_PRINT);
+        if ($json !== false) {
+            $tmp = tempnam(DATA_PATH, 'tmp');
+            if ($tmp !== false) {
+                if (file_put_contents($tmp, $json) !== false) {
+                    @chmod($tmp, 0644);
+                    if (!rename($tmp, ATTEMPTS_FILE)) @unlink($tmp);
+                } else {
+                    @unlink($tmp);
+                }
+            }
+        }
+    }
+
+    flock($fh, LOCK_UN);
+    fclose($fh);
+    return $result;
 }
-function lockout_seconds_remaining(): int {
-    $last = $_SESSION['login_last_fail'] ?? 0;
-    return max(0, LOCKOUT_TIME - time() + $last);
+
+function attempts_entry(string $username): array {
+    $key   = rate_limit_key($username);
+    $store = json_decode((string)@file_get_contents(ATTEMPTS_FILE), true);
+    $e     = is_array($store) ? ($store[$key] ?? null) : null;
+    return is_array($e) ? $e + ['count' => 0, 'last_fail' => 0] : ['count' => 0, 'last_fail' => 0];
 }
+
+/**
+ * Count this attempt and return the new total, atomically.
+ *
+ * Counting up front rather than checking first and recording after removes a
+ * race: parallel requests could otherwise all read the same under-limit count
+ * and all proceed, buying an attacker far more tries than the limit allows.
+ * A successful login clears the bucket, so counting a good attempt costs the
+ * real user nothing.
+ */
+function login_register_attempt(string $username): int {
+    $key = rate_limit_key($username);
+    $n = attempts_transaction(function (array &$store) use ($key) {
+        $e     = $store[$key] ?? ['count' => 0, 'last_fail' => 0];
+        $stale = (time() - ($e['last_fail'] ?? 0)) >= LOCKOUT_TIME;
+        $count = ($stale ? 0 : (int)($e['count'] ?? 0)) + 1;
+        $store[$key] = ['count' => $count, 'last_fail' => time()];
+        return $count;
+    });
+    $_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
+
+    // If the store could not be written, fail closed rather than open.
+    return $n === null ? PHP_INT_MAX : (int)$n;
+}
+
+function login_is_locked(int $count): bool {
+    return $count > MAX_LOGIN_ATTEMPTS;
+}
+
+function reset_login_attempts(string $username = ''): void {
+    $key = rate_limit_key($username);
+    attempts_transaction(function (array &$store) use ($key) {
+        unset($store[$key]);
+    });
+    $_SESSION['login_attempts'] = 0;
+}
+
+function lockout_seconds_remaining(string $username = ''): int {
+    $e = attempts_entry($username);
+    if (($e['count'] ?? 0) < MAX_LOGIN_ATTEMPTS) return 0;
+    return max(0, LOCKOUT_TIME - (time() - (int)($e['last_fail'] ?? 0)));
+}
+
