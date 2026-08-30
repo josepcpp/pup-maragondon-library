@@ -1,7 +1,9 @@
 /* ==========================================================================
    PUP MARAGONDON UNIVERSITY LIBRARY — MASTER STYLESHEET
    Aesthetic: Editorial · Institutional · Restrained
-   Type:   Playfair Display (display) + Source Sans 3 (text)
+   Type:   Source Serif 4 (headings) + Source Sans 3 (text)
+           One superfamily — shared skeleton and metrics, so the two faces
+           read as one system rather than an assembled pair.
    Colour: Maroon #800000 (structure) · Gold #ffb71b (single accent)
            Warm paper neutrals · hairline rules instead of shadows
    ========================================================================== */
@@ -10,6 +12,12 @@
    1. TOKENS
    ========================================================================== */
 :root {
+  /* Type — exactly two faces, and every rule below resolves through these.
+     Headings take --font-display; everything else takes --font-body. */
+  --font-display: "Source Serif 4", ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: "Source Sans 3", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
   /* Brand — unchanged from the institutional palette */
   --maroon: #800000;
   --maroon-deep: #5c0000;
@@ -88,7 +96,7 @@ html {
 }
 
 body {
-  font-family: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
   background: var(--paper);
   color: var(--ink);
   font-size: 1rem;
@@ -103,7 +111,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   color: var(--ink);
   font-weight: 600;
   line-height: 1.14;
@@ -236,7 +244,7 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-family: "Source Sans 3", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -353,7 +361,7 @@ textarea {
   line-height: 1.15;
 }
 .logo-text-wrap > span:first-child {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-display);
   font-size: 1.02rem;
   font-weight: 600;
   color: var(--ink);
@@ -708,7 +716,7 @@ nav {
   gap: 3px;
 }
 .hic-stat-num {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.35rem, 2.2vw, 1.7rem);
   font-weight: 600;
   color: #fff;
@@ -870,11 +878,8 @@ section {
   padding-top: 3px;
 }
 .lib-info-item h4 {
-  font-family: "Source Sans 3", sans-serif;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
+  font-size: 1.02rem;
+  font-weight: 600;
   color: var(--ink);
   margin-bottom: 8px;
 }
@@ -986,7 +991,7 @@ section {
   border-top: 2px solid var(--maroon);
 }
 .step-num {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-display);
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--maroon);
@@ -1200,7 +1205,7 @@ section {
   border-top: 2px solid var(--maroon);
 }
 .holding-num {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-display);
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--maroon);
@@ -1316,7 +1321,7 @@ section {
   margin-bottom: 10px;
 }
 .rc-name {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-display);
   font-size: 1.2rem;
   font-weight: 600;
   line-height: 1.2;
@@ -1611,8 +1616,7 @@ section {
   padding-top: 4px;
 }
 .service-detail-list h5 {
-  font-family: "Source Sans 3", sans-serif;
-  font-size: 0.94rem;
+  font-size: 1.02rem;
   font-weight: 600;
   margin-bottom: 5px;
 }
@@ -1747,7 +1751,7 @@ section {
   justify-content: center;
 }
 .pbc-initials {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-display);
   font-size: 2.4rem;
   font-weight: 600;
   color: var(--maroon);
@@ -1913,11 +1917,8 @@ footer {
 }
 
 .footer-col h4 {
-  font-family: "Source Sans 3", sans-serif;
-  font-size: 0.73rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  font-size: 1.05rem;
+  font-weight: 600;
   color: #fff;
   margin-bottom: 16px;
 }
@@ -2107,7 +2108,7 @@ footer {
 }
 .drawer-brand-name {
   display: block;
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-display);
   font-size: 0.95rem;
   font-weight: 600;
   color: #fff;
@@ -2209,12 +2210,9 @@ footer {
   border-top: 1px solid var(--rule);
 }
 .visit-fact h4 {
-  font-family: "Source Sans 3", sans-serif;
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--maroon);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
   margin-bottom: 9px;
 }
 .visit-fact p {

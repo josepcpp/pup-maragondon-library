@@ -10,12 +10,21 @@ require_auth();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Manual — PUP Maragondon Library CMS</title>
   <link rel="icon" type="image/png" href="../assets/images/logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
+    /* This page is standalone (printable / exported to PDF) and does not load
+       admin/style.css, so it declares the two faces itself. */
+    :root{
+      --font-display:"Source Serif 4",ui-serif,Georgia,"Times New Roman",serif;
+      --font-body:"Source Sans 3",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    }
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Source Sans 3',ui-sans-serif,system-ui,sans-serif;font-size:15px;color:#241f1c;background:#f7f5f1;line-height:1.7;}
+    body{font-family:var(--font-body);font-size:15px;color:#241f1c;background:#f7f5f1;line-height:1.7;}
+    h1,h2,h3,h4,h5{font-family:var(--font-display);}
     a{color:#800000;text-decoration:none;}
     a:hover{text-decoration:underline;}
 

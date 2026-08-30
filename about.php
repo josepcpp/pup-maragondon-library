@@ -31,7 +31,9 @@ if (empty($sched)) {
   <title>About – PUP Maragondon Digital Library</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     /* ── About: Vision / Goals / Mission / Objectives ─────────────────── */
@@ -64,7 +66,7 @@ if (empty($sched)) {
       color: var(--maroon); margin-bottom: 8px;
     }
     .vgmo-card-title {
-      font-family: "Playfair Display", serif;
+      font-family: var(--font-display);
       font-size: 1.32rem; font-weight: 600;
       color: var(--ink); line-height: 1.2;
     }
@@ -129,13 +131,13 @@ if (empty($sched)) {
     }
     .hours-card-title {
       display: flex; align-items: center; gap: 10px;
-      font-family: "Source Sans 3", sans-serif;
-      font-size: 0.74rem; font-weight: 700;
-      letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--maroon);
+      font-family: var(--font-display);
+      font-size: 1.08rem; font-weight: 600;
+      color: var(--ink);
       padding-bottom: 16px; margin-bottom: 4px;
       border-bottom: 1px solid var(--rule);
     }
+    .hours-card-title i { color: var(--maroon); font-size: 0.88rem; }
     .hours-rows { display: flex; flex-direction: column; }
     .hours-row-v2 {
       display: flex; align-items: center; justify-content: space-between;
@@ -211,14 +213,14 @@ if (empty($sched)) {
     }
     .tl-year {
       display: block;
-      font-family: "Source Sans 3", sans-serif;
+      font-family: var(--font-body);
       font-size: 0.74rem; font-weight: 700;
       letter-spacing: 0.13em; text-transform: uppercase;
       color: var(--maroon); margin-bottom: 8px;
     }
     .tl-title {
       display: block;
-      font-family: "Playfair Display", serif;
+      font-family: var(--font-display);
       font-size: 1.25rem; font-weight: 600;
       color: var(--ink); line-height: 1.2; margin-bottom: 8px;
       transition: color 0.2s ease;

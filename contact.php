@@ -26,7 +26,7 @@ $survey  = $s['survey_url']    ?? '';
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <style>
@@ -72,13 +72,13 @@ $survey  = $s['survey_url']    ?? '';
       padding: clamp(26px, 3.4vw, 34px);
     }
     .contact-aside h3 {
-      font-family: "Source Sans 3", sans-serif;
-      font-size: 0.74rem; font-weight: 700;
-      letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--maroon);
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.08rem; font-weight: 600;
+      color: var(--ink);
       padding-bottom: 16px; margin-bottom: 4px;
       border-bottom: 1px solid var(--rule);
     }
+    .contact-aside h3 i { color: var(--maroon); font-size: 0.88rem; }
     .contact-hours-row {
       display: flex; align-items: center; justify-content: space-between;
       gap: 20px; padding: 12px 0;

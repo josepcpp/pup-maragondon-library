@@ -4,6 +4,11 @@
    ========================================================================== */
 
 :root {
+  /* Type — the same two faces as the public site */
+  --font-display: "Source Serif 4", ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: "Source Sans 3", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
   /* Brand */
   --maroon: #800000;
   --maroon-deep: #5c0000;
@@ -54,7 +59,7 @@
 }
 
 body {
-  font-family: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body);
   background: var(--paper-alt);
   color: var(--ink);
   font-size: 0.92rem;
@@ -65,7 +70,9 @@ body {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5 {
+  font-family: var(--font-display);
   line-height: 1.2;
   font-weight: 600;
   color: var(--ink);
@@ -505,8 +512,9 @@ textarea {
 }
 .stat-card-num {
   display: block;
-  font-size: 1.45rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 600;
   line-height: 1.1;
   color: var(--ink);
 }

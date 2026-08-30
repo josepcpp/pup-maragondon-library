@@ -12,7 +12,7 @@ http_response_code(404);
   <link rel="icon" type="image/png" href="/library-website1/assets/images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="/library-website1/style.css">
   <style>
@@ -24,7 +24,7 @@ http_response_code(404);
       background: var(--paper);
     }
     .nf-code {
-      font-family: "Source Sans 3", sans-serif;
+      font-family: var(--font-body);
       font-size: 0.74rem; font-weight: 700;
       letter-spacing: 0.16em; text-transform: uppercase;
       color: var(--maroon); margin-bottom: 18px;
@@ -56,7 +56,7 @@ http_response_code(404);
     .nf-links a:hover { background: var(--paper-alt); }
     .nf-links strong {
       display: block;
-      font-family: "Playfair Display", serif;
+      font-family: var(--font-display);
       font-size: 1.02rem; font-weight: 600;
       margin-bottom: 5px;
     }
