@@ -101,53 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // 4. COUNTERS
-  // ──────────────────────────────────────────────────────────────────────────
-  function animateCounter(el, target, suffix = "") {
-    if (reduceMotion) {
-      el.textContent = target.toLocaleString() + suffix;
-      return;
-    }
-    const duration = 1200;
-    const start = performance.now();
-    const step = (now) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target).toLocaleString() + suffix;
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }
-
-  const statsSection = document.querySelector(".stats-section");
-  if (statsSection) {
-    if (window.cmsSettings && window.cmsSettings.counter_stats) {
-      const nums = document.querySelectorAll(".stat-num[data-target]");
-      window.cmsSettings.counter_stats.forEach((s, i) => {
-        if (!nums[i]) return;
-        nums[i].dataset.target = s.target;
-        nums[i].dataset.suffix = s.suffix || "";
-        if (nums[i].nextElementSibling) {
-          nums[i].nextElementSibling.textContent = s.label;
-        }
-      });
-    }
-    let counted = false;
-    new IntersectionObserver((entries) => {
-      if (!entries[0].isIntersecting || counted) return;
-      counted = true;
-      document.querySelectorAll(".stat-num[data-target]").forEach((el) => {
-        animateCounter(
-          el,
-          parseInt(el.dataset.target, 10),
-          el.dataset.suffix || "",
-        );
-      });
-    }, { threshold: 0.3 }).observe(statsSection);
-  }
-
-  // ──────────────────────────────────────────────────────────────────────────
-  // 5. NEW ARRIVALS — rendered from CMS data
+  // 4. NEW ARRIVALS — rendered from CMS data
   // ──────────────────────────────────────────────────────────────────────────
   const arrivalsContainer = document.getElementById("arrivals-container");
   if (arrivalsContainer) {
@@ -209,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // 6. VIDEO MODAL
+  // 5. VIDEO MODAL
   // ──────────────────────────────────────────────────────────────────────────
   const playThumb = document.getElementById("play-avp-thumb");
   const playBtn = document.getElementById("btn-watch-avp");
@@ -246,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ──────────────────────────────────────────────────────────────────────────
-  // 7. ACCORDION
+  // 6. ACCORDION
   // ──────────────────────────────────────────────────────────────────────────
   document.querySelectorAll(".accordion-header").forEach((hdr) => {
     hdr.setAttribute("tabindex", "0");
@@ -272,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ──────────────────────────────────────────────────────────────────────────
-  // 8. SERVICE TABS
+  // 7. SERVICE TABS
   // ──────────────────────────────────────────────────────────────────────────
   document.querySelectorAll(".tab-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
@@ -289,23 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ──────────────────────────────────────────────────────────────────────────
-  // 9. LIBRARY OPEN / CLOSED STATUS
-  // ──────────────────────────────────────────────────────────────────────────
-  const statusEl = document.getElementById("library-status");
-  const statusDot = document.getElementById("status-dot");
-  if (statusEl) {
-    const now = new Date();
-    const day = now.getDay();
-    const hour = now.getHours();
-    const isOpen = day >= 1 && day <= 5 && hour >= 8 && hour < 17;
-    statusEl.textContent = isOpen
-      ? "Library is currently open"
-      : "Library is currently closed";
-    if (!isOpen) statusDot?.classList.add("closed");
-  }
-
-  // ──────────────────────────────────────────────────────────────────────────
-  // 10. BACK TO TOP
+  // 8. BACK TO TOP
   // ──────────────────────────────────────────────────────────────────────────
   const backToTop = document.getElementById("back-to-top");
   if (backToTop) {

@@ -1,7 +1,6 @@
 <?php
 $activePage = 'holdings';
 $h = @json_decode(@file_get_contents(__DIR__ . '/data/holdings.json'), true) ?: [];
-$stats = $h['stats'] ?? [];
 $cats  = $h['categories'] ?? [];
 $s = @json_decode(@file_get_contents(__DIR__ . '/data/settings.json'), true) ?: [];
 $opac_url = $s['opac_url'] ?? 'https://ils.pup.edu.ph/';
@@ -18,9 +17,6 @@ $opac_url = $s['opac_url'] ?? 'https://ils.pup.edu.ph/';
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script>
-    window.cmsSettings = { counter_stats: <?= json_encode(array_values($stats), JSON_HEX_TAG) ?> };
-  </script>
 </head>
 <body>
 <?php include 'includes/nav.php'; ?>

@@ -1,11 +1,6 @@
 <?php
 $activePage = 'administration';
 $personnel  = @json_decode(@file_get_contents(__DIR__ . '/data/personnel.json'), true) ?: [];
-$s          = @json_decode(@file_get_contents(__DIR__ . '/data/settings.json'),  true) ?: [];
-$contact    = $s['contact'] ?? [];
-$lib_email  = $contact['email']   ?? 'library.maragondon@pup.edu.ph';
-$lib_hours  = $contact['hours']   ?? 'Mon – Fri, 8:00 AM – 5:00 PM';
-$lib_addr   = $contact['address'] ?? 'PUP Maragondon Campus Library';
 
 function getInitials(string $name): string {
     $parts  = preg_split('/\s+/', trim($name));
@@ -124,35 +119,9 @@ function getInitials(string $name): string {
     </div>
     <?php endif; ?>
 
-    <!-- CONTACT CTA BANNER -->
-    <div class="admin-contact-banner reveal">
-      <div class="acb-text">
-        <h3>Have a Question for Our Team?</h3>
-        <p>Our reference librarians are ready to assist with research inquiries, resource navigation, and library account support.</p>
-        <div class="acb-info">
-          <div class="acb-info-item">
-            <i class="fa-solid fa-clock"></i>
-            <span><?= htmlspecialchars($lib_hours) ?></span>
-          </div>
-          <div class="acb-info-item">
-            <i class="fa-solid fa-location-dot"></i>
-            <span><?= htmlspecialchars($lib_addr) ?></span>
-          </div>
-          <div class="acb-info-item">
-            <i class="fa-solid fa-envelope"></i>
-            <span><?= htmlspecialchars($lib_email) ?></span>
-          </div>
-        </div>
-      </div>
-      <div class="acb-actions">
-        <a href="mailto:<?= htmlspecialchars($lib_email) ?>" class="btn-gold">
-          <i class="fa-solid fa-envelope"></i> Email Us
-        </a>
-        <a href="survey.php" class="btn-outline" style="border-color:rgba(255,255,255,0.3);color:#fff;">
-          <i class="fa-solid fa-star"></i> Library Survey
-        </a>
-      </div>
-    </div>
+    <p class="section-more reveal">
+      <a href="contact.php" class="btn-ghost">Contact the library <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </p>
 
   </div>
 </section>

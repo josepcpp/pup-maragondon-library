@@ -52,9 +52,14 @@ $_socials = array_filter([
         <ul>
           <li><a href="programs.php"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> Programs &amp; Events</a></li>
           <li><a href="linkages.php"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> Linkages</a></li>
-          <li><a href="survey.php"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> Library Survey</a></li>
           <li><a href="administration.php"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> Administration</a></li>
           <li><a href="contact.php"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> Contact Us</a></li>
+          <?php if (!empty($_s['survey_url'])): ?>
+          <li><a href="<?= htmlspecialchars($_s['survey_url']) ?>" target="_blank" rel="noopener"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> Library Survey</a></li>
+          <?php endif; ?>
+          <?php if (!empty($_s['university_library_url'])): ?>
+          <li><a href="<?= htmlspecialchars($_s['university_library_url']) ?>" target="_blank" rel="noopener"><i class="fa-solid fa-angle-right" aria-hidden="true"></i> PUP University Library</a></li>
+          <?php endif; ?>
         </ul>
       </div>
 
@@ -84,7 +89,6 @@ $_socials = array_filter([
   <div class="footer-bottom">
     <div class="container">
       <p>&copy; <?= date('Y') ?> Polytechnic University of the Philippines – Maragondon Campus</p>
-      <p><a href="survey.php">Library Survey</a> &nbsp;·&nbsp; <a href="administration.php">Administration</a></p>
     </div>
   </div>
 </footer>

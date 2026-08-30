@@ -54,5 +54,6 @@
         "twitter": ""
     },
     "survey_url": "https://forms.gle/iJicqykCupxRXPy57",
-    "opac_url": "https://ils.pup.edu.ph/"
+    "opac_url": "https://ils.pup.edu.ph/",
+    "university_library_url": "https://www.pup.edu.ph/library"
 }

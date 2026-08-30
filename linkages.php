@@ -9,9 +9,10 @@ $intro  = $_lnk['intro']           ?? 'The PUP University Library promotes colla
 $cards  = $_lnk['cards']           ?? [];
 $mou_t  = $_lnk['mou_title']       ?? 'Memoranda of Agreement';
 $mou_d  = $_lnk['mou_description'] ?? 'Formal collaborations and coordination with various campus branches and community agencies allow the library to expand its reach and service capabilities effectively.';
-$cta_t  = $_lnk['cta_title']       ?? 'Want to Partner With Us?';
-$cta_d  = $_lnk['cta_description'] ?? 'The PUP University Library is committed to fostering cooperation with local and international agencies/organizations to make efficient and effective use of library resources.';
 $email  = $_lnk['contact_email']   ?? 'library@pup.edu.ph';
+
+$_s      = @json_decode(@file_get_contents(__DIR__ . '/data/settings.json'), true) ?: [];
+$uni_lib = $_s['university_library_url'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,27 +58,22 @@ $email  = $_lnk['contact_email']   ?? 'library@pup.edu.ph';
   </div>
 </section>
 
-<section style="background:var(--parchment);padding:80px 0 20px;">
+<section style="background:var(--paper-alt);padding:var(--band) 0;">
   <div class="container">
+
     <div class="section-header reveal">
       <span class="section-label">Partnerships</span>
-      <h2 class="section-title">Our <span>Institutional Linkages</span></h2>
+      <h2 class="section-title">Our <span>institutional linkages</span></h2>
       <div class="section-divider"></div>
       <?php if ($intro): ?>
-      <p class="section-sub truncate-text" style="margin:16px auto 0;"><?= h($intro) ?></p>
+      <p class="section-sub truncate-text"><?= h($intro) ?></p>
       <?php endif; ?>
     </div>
-  </div>
-</section>
-
-<section style="background:var(--parchment);padding-bottom:100px;">
-  <div class="container">
 
     <?php if (!empty($cards)): ?>
     <div class="linkages-grid reveal">
       <?php foreach ($cards as $card): ?>
       <div class="linkage-card">
-        <div class="linkage-logo-wrap"><i class="<?= h($card['icon'] ?? 'fa-solid fa-link') ?>"></i></div>
         <h3><?= h($card['title'] ?? '') ?></h3>
         <p class="truncate-text"><?= h($card['description'] ?? '') ?></p>
       </div>
@@ -94,19 +90,18 @@ $email  = $_lnk['contact_email']   ?? 'library@pup.edu.ph';
         <?php if ($mou_d): ?>
         <p class="truncate-text"><?= h($mou_d) ?></p>
         <?php endif; ?>
-        <a href="mailto:<?= h($email) ?>" class="btn-outline">
-          <span>Contact the library</span> <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-        </a>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;">
+          <a href="mailto:<?= h($email) ?>" class="btn-outline">
+            <span>Contact the library</span> <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          </a>
+          <?php if ($uni_lib): ?>
+          <a href="<?= h($uni_lib) ?>" target="_blank" rel="noopener" class="btn-outline">
+            <span>PUP University Library</span> <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+          <?php endif; ?>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="survey-banner reveal">
-  <div class="container">
-    <h2><?= h($cta_t) ?></h2>
-    <p class="truncate-text"><?= h($cta_d) ?></p>
-    <a href="mailto:<?= h($email) ?>" class="btn-primary">Contact the Library <i class="fa-solid fa-envelope"></i></a>
   </div>
 </section>
 

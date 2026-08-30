@@ -1,6 +1,11 @@
 <?php
 // includes/nav.php
 if (!isset($activePage)) $activePage = '';
+
+// The survey lives on Google Forms; link straight to it rather than through
+// a local page whose only content was a description of the link.
+$_nav_s      = @json_decode(@file_get_contents(__DIR__ . '/../data/settings.json'), true) ?: [];
+$_survey_url = $_nav_s['survey_url'] ?? '';
 ?>
 <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -50,12 +55,14 @@ if (!isset($activePage)) $activePage = '';
           <a href="programs.php" class="<?= $activePage==='programs' ? 'active' : '' ?>">Programs</a>
         </li>
         <li class="has-dropdown">
-          <a href="#" class="<?= in_array($activePage, ['linkages','survey','administration','contact']) ? 'active' : '' ?>">More</a>
+          <a href="#" class="<?= in_array($activePage, ['linkages','administration','contact']) ? 'active' : '' ?>">More</a>
           <ul class="dropdown-menu">
             <li><a href="linkages.php"><i class="fa-solid fa-link"></i> Linkages</a></li>
-            <li><a href="survey.php"><i class="fa-solid fa-clipboard-list"></i> Library Survey</a></li>
             <li><a href="administration.php"><i class="fa-solid fa-users"></i> Administration</a></li>
             <li><a href="contact.php"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+            <?php if ($_survey_url): ?>
+            <li><a href="<?= htmlspecialchars($_survey_url) ?>" target="_blank" rel="noopener"><i class="fa-solid fa-clipboard-list"></i> Library Survey</a></li>
+            <?php endif; ?>
           </ul>
         </li>
       </ul>
@@ -96,30 +103,13 @@ if (!isset($activePage)) $activePage = '';
     <a href="guidelines.php"     class="<?= $activePage==='guidelines'     ? 'active' : '' ?>">Guidelines</a>
     <a href="programs.php"       class="<?= $activePage==='programs'       ? 'active' : '' ?>">Programs &amp; Events</a>
     <a href="linkages.php"       class="<?= $activePage==='linkages'       ? 'active' : '' ?>">Linkages</a>
-    <a href="survey.php"         class="<?= $activePage==='survey'         ? 'active' : '' ?>">Library Survey</a>
     <a href="administration.php" class="<?= $activePage==='administration' ? 'active' : '' ?>">Administration</a>
     <a href="contact.php"        class="<?= $activePage==='contact'        ? 'active' : '' ?>">Contact</a>
+    <?php if ($_survey_url): ?>
+    <a href="<?= htmlspecialchars($_survey_url) ?>" target="_blank" rel="noopener">Library Survey</a>
+    <?php endif; ?>
   </nav>
 </div>
 <div class="drawer-overlay" id="drawer-overlay"></div>
-
-<!-- MOBILE BOTTOM NAV -->
-<nav class="mobile-bottom-nav" aria-label="Quick navigation">
-  <a href="index.php"      class="mbn-item <?= $activePage==='home'       ? 'active' : '' ?>">
-    <i class="fa-solid fa-house" aria-hidden="true"></i><span>Home</span>
-  </a>
-  <a href="about.php"      class="mbn-item <?= $activePage==='about'      ? 'active' : '' ?>">
-    <i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>About</span>
-  </a>
-  <a href="services.php"   class="mbn-item <?= $activePage==='services'   ? 'active' : '' ?>">
-    <i class="fa-solid fa-bell-concierge" aria-hidden="true"></i><span>Services</span>
-  </a>
-  <a href="resources.php"  class="mbn-item <?= $activePage==='resources'  ? 'active' : '' ?>">
-    <i class="fa-solid fa-database" aria-hidden="true"></i><span>Resources</span>
-  </a>
-  <a href="guidelines.php" class="mbn-item <?= $activePage==='guidelines' ? 'active' : '' ?>">
-    <i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Rules</span>
-  </a>
-</nav>
 
 <main id="main-content">

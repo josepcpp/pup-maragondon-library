@@ -45,20 +45,15 @@ $first = $services[0]['tab_id'] ?? 'circulation';
   </div>
 </section>
 
-<section style="background:var(--parchment);padding:60px 0 20px;">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">Reader's Services</span>
-      <h2 class="section-title">How We <span>Serve You</span></h2>
-      <div class="section-divider"></div>
-      <p class="section-sub" style="margin:16px auto 0;">Readers services are provided through the Circulation, Reference, Filipiniana and Periodicals sections.</p>
-    </div>
-  </div>
-</section>
-
 <?php if (!empty($services)): ?>
-<section class="services-tabs" style="background:var(--parchment);">
+<section class="services-tabs" style="background:var(--paper-alt);padding-top:var(--band);">
   <div class="container reveal">
+    <div class="section-header">
+      <span class="section-label">Reader services</span>
+      <h2 class="section-title">How we <span>serve you</span></h2>
+      <div class="section-divider"></div>
+      <p class="section-sub">Reader services are provided through the Circulation, Reference, Filipiniana, and Periodicals sections.</p>
+    </div>
     <div class="tab-nav">
       <?php foreach ($services as $i => $svc): ?>
       <button class="tab-btn <?= $i === 0 ? 'active' : '' ?>" data-tab="tab-<?= h($svc['tab_id']) ?>" id="<?= h($svc['tab_id']) ?>">
@@ -101,35 +96,5 @@ $first = $services[0]['tab_id'] ?? 'circulation';
   </div>
 </section>
 <?php endif; ?>
-
-<section style="background:var(--parchment);padding-bottom:100px;">
-  <div class="container reveal">
-    <div class="hours-widget">
-      <h3><i class="fa-regular fa-clock" style="margin-right:12px;"></i>Library Hours</h3>
-      <p>Visit us during regular working hours for in-person services. Please note our "No Noon Break" policy.</p>
-      <div class="hours-status">
-        <span class="status-dot" id="status-dot"></span>
-        <span id="library-status">Checking status...</span>
-      </div>
-      <div class="hours-grid">
-        <?php
-        $hours_data = @json_decode(@file_get_contents(__DIR__ . '/data/about.json'), true);
-        $hours_sched = $hours_data['schedule'] ?? [];
-        if (!empty($hours_sched)):
-            foreach ($hours_sched as $row):
-        ?>
-        <div class="hours-row">
-          <div class="day"><?= h($row['day']) ?></div>
-          <div class="time"><?= h($row['time']) ?></div>
-        </div>
-        <?php endforeach; else: ?>
-        <div class="hours-row"><div class="day">Monday – Friday</div><div class="time">8:00 AM – 8:00 PM</div></div>
-        <div class="hours-row"><div class="day">Saturday</div><div class="time">8:00 AM – 5:00 PM</div></div>
-        <div class="hours-row"><div class="day">Sunday</div><div class="time">Closed</div></div>
-        <?php endif; ?>
-      </div>
-    </div>
-  </div>
-</section>
 
 <?php include 'includes/footer.php'; ?>

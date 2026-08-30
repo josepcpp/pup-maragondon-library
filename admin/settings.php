@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $settings['avp_youtube_id'] = preg_replace('/[^a-zA-Z0-9_\-]/', '', trim($_POST['avp_youtube_id'] ?? ''));
         $settings['survey_url']     = $safe_url($_POST['survey_url'] ?? '');
         $settings['opac_url']       = $safe_url($_POST['opac_url']   ?? '');
+        $settings['university_library_url'] = $safe_url($_POST['university_library_url'] ?? '');
 
         $contact_email = trim($_POST['contact_email'] ?? '');
         if ($contact_email !== '' && !filter_var($contact_email, FILTER_VALIDATE_EMAIL)) {
@@ -157,6 +158,13 @@ $token = csrf_token();
           <label class="form-label">OPAC URL</label>
           <input type="text" name="opac_url" class="form-control" value="<?= h($settings['opac_url'] ?? '') ?>">
         </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">PUP University Library URL</label>
+        <input type="text" name="university_library_url" class="form-control"
+               value="<?= h($settings['university_library_url'] ?? '') ?>"
+               placeholder="https://www.pup.edu.ph/library">
+        <span class="form-hint">The main university library site. Linked from the footer, the About page, and the Linkages page.</span>
       </div>
       <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">
       <p style="font-size:0.8rem;font-weight:700;color:var(--ink);margin-bottom:12px;">Contact Information</p>

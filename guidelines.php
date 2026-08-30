@@ -78,12 +78,4 @@ $rules = is_array($rules) ? $rules : [];
   </div>
 </section>
 
-<section class="survey-banner reveal">
-  <div class="container">
-    <h2>Have Feedback About Our Services?</h2>
-    <p>Help us improve by answering our brief library satisfaction survey. Your input matters to us.</p>
-    <a href="survey.php" class="btn-primary">Take the Survey <i class="fa-solid fa-arrow-right"></i></a>
-  </div>
-</section>
-
 <?php include 'includes/footer.php'; ?>

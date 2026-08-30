@@ -10,6 +10,9 @@ $sched = $_abt['schedule'] ?? [];
 $tline = $_abt['timeline'] ?? [];
 $note  = $_abt['hours_note'] ?? 'The University Library observes a NO NOON BREAK policy.';
 
+$_s      = @json_decode(@file_get_contents(__DIR__ . '/data/settings.json'), true) ?: [];
+$uni_lib = $_s['university_library_url'] ?? '';
+
 // Defaults if schedule empty
 if (empty($sched)) {
     $sched = [
@@ -272,9 +275,16 @@ if (empty($sched)) {
 <section class="about-vgmo-section">
   <div class="container">
     <div class="about-vgmo-intro">
-      <span class="section-label">Who We Are</span>
-      <h2 class="section-title">Vision, Goals, Mission <span>&amp; Objectives</span></h2>
+      <span class="section-label">Who we are</span>
+      <h2 class="section-title">Vision, goals, mission <span>&amp; objectives</span></h2>
       <div class="section-divider"></div>
+      <?php if ($uni_lib): ?>
+      <p class="section-sub">
+        The Maragondon Campus Library operates within the
+        <a href="<?= h($uni_lib) ?>" target="_blank" rel="noopener" style="color:var(--maroon);text-decoration:underline;text-underline-offset:2px;">PUP University Library</a>
+        system, and shares its vision, goals, mission, and objectives.
+      </p>
+      <?php endif; ?>
     </div>
     <div class="vgmo-cards-grid">
 

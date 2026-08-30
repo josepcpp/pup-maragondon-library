@@ -187,7 +187,9 @@ $survey  = $s['survey_url']    ?? '';
           </a>
           <?php endif; ?>
           <?php if ($survey): ?>
-          <a href="survey.php" class="btn-outline">Give feedback</a>
+          <a href="<?= h($survey) ?>" target="_blank" rel="noopener" class="btn-outline">
+            Give feedback <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
           <?php endif; ?>
         </div>
       </div>

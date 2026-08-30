@@ -568,37 +568,6 @@ nav {
   visibility: visible;
 }
 
-/* ── Mobile bottom nav ── */
-.mobile-bottom-nav {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 890;
-  background: var(--paper);
-  border-top: 1px solid var(--rule);
-  padding-bottom: env(safe-area-inset-bottom);
-}
-.mbn-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  min-height: 56px;
-  font-size: 0.65rem;
-  color: var(--ink-light);
-  transition: color 0.2s ease;
-}
-.mbn-item i {
-  font-size: 1.02rem;
-}
-.mbn-item.active {
-  color: var(--maroon);
-}
-
 /* ==========================================================================
    6. HERO (home)
    ========================================================================== */
@@ -612,10 +581,6 @@ nav {
 }
 /* Legacy scrim element — the gradient above already handles legibility. */
 .hero-overlay {
-  display: none;
-}
-/* Decorative oversized ghost word — removed. */
-.hero-bg-text {
   display: none;
 }
 
@@ -729,44 +694,6 @@ nav {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.hic-quick-links {
-  display: flex;
-  flex-direction: column;
-}
-.hic-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 13px 2px;
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.82);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  transition: color 0.2s ease;
-}
-.hic-link:hover {
-  color: #fff;
-}
-.hic-link > i:first-child {
-  width: 16px;
-  font-size: 0.82rem;
-  color: var(--gold);
-}
-.hic-arrow {
-  margin-left: auto;
-  font-size: 0.72rem;
-  opacity: 0.5;
-  transition: transform 0.2s ease;
-}
-.hic-link:hover .hic-arrow {
-  transform: translateX(3px);
-  opacity: 1;
-}
-
-/* Decorative bouncing chevron — removed. */
-.scroll-down {
-  display: none;
-}
-
 /* ==========================================================================
    7. INNER PAGE HERO
    ========================================================================== */
@@ -841,11 +768,6 @@ section {
   padding-left: 14px;
   padding-right: 12px;
 }
-.q-card-icon {
-  font-size: 1.05rem;
-  color: var(--maroon);
-  margin-bottom: 16px;
-}
 .q-card h3 {
   font-size: 1.12rem;
   margin-bottom: 8px;
@@ -854,39 +776,6 @@ section {
   font-size: 0.88rem;
   color: var(--ink-mid);
   line-height: 1.65;
-}
-
-/* ── Library info strip — plain definition rows on a tinted band ── */
-.lib-info-strip {
-  padding: var(--band) 0;
-  background: var(--paper-alt);
-  border-block: 1px solid var(--rule);
-}
-.lib-info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: clamp(28px, 4vw, 48px);
-}
-.lib-info-item {
-  display: flex;
-  gap: 16px;
-}
-.lib-info-icon {
-  flex-shrink: 0;
-  font-size: 1rem;
-  color: var(--maroon);
-  padding-top: 3px;
-}
-.lib-info-item h4 {
-  font-size: 1.02rem;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 8px;
-}
-.lib-info-item p {
-  font-size: 0.88rem;
-  color: var(--ink-mid);
-  line-height: 1.7;
 }
 
 /* ── AVP / virtual tour ── */
@@ -970,10 +859,6 @@ section {
 .avp-thumbnail:hover .play-ring {
   transform: scale(1.06);
 }
-/* Decorative offset block — removed. */
-.avp-deco {
-  display: none;
-}
 
 /* ── How to get started — numbered editorial list ── */
 .how-section {
@@ -997,10 +882,6 @@ section {
   color: var(--maroon);
   margin-bottom: 12px;
 }
-/* The icon duplicates the number's job — drop it. */
-.step-icon {
-  display: none;
-}
 .step-card h4 {
   font-size: 1.08rem;
   margin-bottom: 9px;
@@ -1009,12 +890,6 @@ section {
   font-size: 0.87rem;
   color: var(--ink-mid);
   line-height: 1.7;
-}
-
-/* ── New arrivals ── */
-.new-arrivals {
-  padding: var(--band) 0;
-  background: var(--paper);
 }
 .arrivals-grid {
   display: grid;
@@ -1097,42 +972,6 @@ section {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-}
-/* Three floating decorative icon rings — removed. */
-.cta-icons {
-  display: none;
-}
-
-/* ── Policies ── */
-.policy-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.policy-item {
-  display: flex;
-  gap: 15px;
-  padding: 26px 24px;
-  background: var(--paper);
-}
-.policy-icon-wrap {
-  flex-shrink: 0;
-  font-size: 0.95rem;
-  color: var(--maroon);
-  padding-top: 3px;
-}
-.policy-item h4 {
-  font-size: 1rem;
-  margin-bottom: 7px;
-}
-.policy-item p {
-  font-size: 0.86rem;
-  color: var(--ink-mid);
-  line-height: 1.7;
 }
 
 /* ==========================================================================
@@ -1374,11 +1213,6 @@ section {
 .linkage-card {
   background: var(--paper);
   padding: 30px 26px;
-}
-.linkage-logo-wrap {
-  font-size: 1.1rem;
-  color: var(--maroon);
-  margin-bottom: 16px;
 }
 .linkage-card h3 {
   font-size: 1.1rem;
@@ -1626,101 +1460,6 @@ section {
   line-height: 1.7;
 }
 
-/* Hours widget (services page) */
-.hours-widget {
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-lg);
-  padding: clamp(28px, 4vw, 40px);
-}
-.hours-widget h3 {
-  font-size: 1.35rem;
-  margin-bottom: 10px;
-}
-.hours-widget > p {
-  font-size: 0.9rem;
-  color: var(--ink-mid);
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-.hours-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 0.84rem;
-  font-weight: 600;
-  color: var(--ink);
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 4px;
-  width: 100%;
-}
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #16a34a;
-  flex-shrink: 0;
-}
-.status-dot.closed {
-  background: #dc2626;
-}
-.hours-grid {
-  display: flex;
-  flex-direction: column;
-}
-.hours-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--rule);
-  font-size: 0.88rem;
-}
-.hours-row:last-child {
-  border-bottom: none;
-}
-.hours-row .day {
-  color: var(--ink);
-  font-weight: 500;
-}
-.hours-row .time {
-  color: var(--ink-mid);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ==========================================================================
-   16. SURVEY BANNER
-   ========================================================================== */
-.survey-banner {
-  padding: var(--band) 0;
-  background: var(--maroon-deep);
-  color: #fff;
-  text-align: center;
-}
-.survey-banner h2 {
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  color: #fff;
-  margin-bottom: 14px;
-}
-.survey-banner p {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.96rem;
-  line-height: 1.75;
-  max-width: 58ch;
-  margin: 0 auto 28px;
-}
-.survey-banner .btn-primary {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: #2b1d00;
-}
-.survey-banner .btn-primary:hover {
-  background: var(--gold-light);
-  border-color: var(--gold-light);
-}
-
 /* ==========================================================================
    17. ADMINISTRATION / PERSONNEL
    ========================================================================== */
@@ -1836,22 +1575,6 @@ a.pbc-contact-row:hover {
   line-height: 1.75;
   max-width: 56ch;
   margin-bottom: 22px;
-}
-.acb-info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 28px;
-}
-.acb-info-item {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-.acb-info-item i {
-  font-size: 0.8rem;
-  color: var(--gold);
 }
 .acb-actions {
   display: flex;
@@ -2046,11 +1769,7 @@ footer {
   transform: none;
 }
 
-/* Legacy hero stagger hooks — resolved immediately, no per-element delay. */
-.stagger-1,
-.stagger-2,
-.stagger-3,
-.stagger-4 {
+/* Legacy hero stagger hooks — resolved immediately {
   opacity: 1;
 }
 
@@ -2200,32 +1919,6 @@ footer {
   font-size: 0.92rem;
 }
 
-/* Visit facts row */
-.visit-facts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: clamp(24px, 3vw, 40px);
-  margin-top: clamp(44px, 6vw, 72px);
-  padding-top: clamp(32px, 4vw, 44px);
-  border-top: 1px solid var(--rule);
-}
-.visit-fact h4 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 9px;
-}
-.visit-fact p {
-  font-size: 0.87rem;
-  color: var(--ink-mid);
-  line-height: 1.7;
-}
-.visit-fact a {
-  color: var(--maroon);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
 /* Footer bottom bar layout */
 .footer-bottom .container {
   display: flex;
@@ -2309,15 +2002,6 @@ footer {
   .hamburger {
     display: flex;
   }
-  .mobile-bottom-nav {
-    display: flex;
-  }
-  body {
-    padding-bottom: 56px;
-  }
-  #back-to-top {
-    bottom: 70px;
-  }
   .acb-actions {
     flex-direction: row;
     flex-wrap: wrap;
@@ -2371,7 +2055,6 @@ footer {
    ========================================================================== */
 @media print {
   #main-header,
-  .mobile-bottom-nav,
   .mobile-drawer,
   .drawer-overlay,
   #back-to-top,

@@ -10,7 +10,6 @@ $avp_id        = $s['avp_youtube_id'] ?? 'ScMzIvxBSi4';
 $opac_url      = $s['opac_url']      ?? 'https://ils.pup.edu.ph/';
 $hero_stats    = array_slice($s['hero_stats'] ?? [], 0, 3);
 $avp_thumb     = 'https://img.youtube.com/vi/' . rawurlencode($avp_id) . '/hqdefault.jpg';
-$contact       = $s['contact'] ?? [];
 
 // Today's opening hours, from the schedule managed in the CMS
 $today_num  = (int)date('w'); // 0 = Sunday … 6 = Saturday
@@ -86,24 +85,6 @@ $has_featured   = $featured_title !== '' && $featured_title !== 'Featured Resour
         </div>
         <?php endif; ?>
 
-        <div class="hic-divider"></div>
-        <div class="hic-quick-links">
-          <a href="<?= htmlspecialchars($opac_url) ?>" target="_blank" rel="noopener" class="hic-link">
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-            Search catalog (OPAC)
-            <i class="fa-solid fa-arrow-right hic-arrow" aria-hidden="true"></i>
-          </a>
-          <a href="resources.php" class="hic-link">
-            <i class="fa-solid fa-database" aria-hidden="true"></i>
-            Online databases
-            <i class="fa-solid fa-arrow-right hic-arrow" aria-hidden="true"></i>
-          </a>
-          <a href="holdings.php" class="hic-link">
-            <i class="fa-solid fa-book" aria-hidden="true"></i>
-            Browse holdings
-            <i class="fa-solid fa-arrow-right hic-arrow" aria-hidden="true"></i>
-          </a>
-        </div>
       </div>
     </div>
 
@@ -123,22 +104,18 @@ $has_featured   = $featured_title !== '' && $featured_title !== 'Featured Resour
 
     <div class="quick-grid">
       <div class="q-card" onclick="location.href='holdings.php'">
-        <div class="q-card-icon"><i class="fa-solid fa-book" aria-hidden="true"></i></div>
         <h3>Digital Library</h3>
         <p>E-books, modules, and PDF resources you can open from any device.</p>
       </div>
       <div class="q-card" onclick="location.href='holdings.php#theses'">
-        <div class="q-card-icon"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
         <h3>Theses &amp; Research</h3>
         <p>Student dissertations and the campus research archive.</p>
       </div>
       <div class="q-card" onclick="location.href='resources.php'">
-        <div class="q-card-icon"><i class="fa-solid fa-database" aria-hidden="true"></i></div>
         <h3>Online Databases</h3>
         <p>Emerald Insight, Gale, ProQuest, iG Library, and PressReader.</p>
       </div>
       <div class="q-card" onclick="location.href='services.php'">
-        <div class="q-card-icon"><i class="fa-solid fa-bell-concierge" aria-hidden="true"></i></div>
         <h3>Reader Services</h3>
         <p>Circulation, reference, reserve, Filipiniana, and periodicals.</p>
       </div>
@@ -225,26 +202,6 @@ $has_featured   = $featured_title !== '' && $featured_title !== 'Featured Resour
         </div>
       </div>
 
-    </div>
-
-    <!-- Practical facts, as a compact definition row -->
-    <div class="visit-facts reveal">
-      <div class="visit-fact">
-        <h4>Hours</h4>
-        <p><?= htmlspecialchars($contact['hours'] ?? 'Mon – Fri, 8:00 AM – 5:00 PM') ?><br>No noon break.</p>
-      </div>
-      <div class="visit-fact">
-        <h4>Remote access</h4>
-        <p>E-resources and databases are reachable off-campus with your PUP credentials.</p>
-      </div>
-      <div class="visit-fact">
-        <h4>Library card</h4>
-        <p>Present a valid PUP ID at the circulation desk to register and borrow.</p>
-      </div>
-      <div class="visit-fact">
-        <h4>Ask a librarian</h4>
-        <p><a href="contact.php">Get in touch</a> for research help and database navigation.</p>
-      </div>
     </div>
   </div>
 </section>

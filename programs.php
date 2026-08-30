@@ -66,28 +66,24 @@ $programs = @json_decode(@file_get_contents(__DIR__ . '/data/programs.json'), tr
           <div class="program-info-grid" style="margin-top:40px;">
             <?php if (!empty($prog['when'])): ?>
             <div class="program-info-card">
-              <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>
               <h4>When is it Held?</h4>
               <p><?= htmlspecialchars($prog['when']) ?></p>
             </div>
             <?php endif; ?>
             <?php if (!empty($prog['who'])): ?>
             <div class="program-info-card">
-              <div class="icon"><i class="fa-solid fa-users"></i></div>
               <h4>Who Should Attend?</h4>
               <p><?= htmlspecialchars($prog['who']) ?></p>
             </div>
             <?php endif; ?>
             <?php if (!empty($prog['what'])): ?>
             <div class="program-info-card">
-              <div class="icon"><i class="fa-solid fa-map"></i></div>
               <h4>What's Covered?</h4>
               <p><?= htmlspecialchars($prog['what']) ?></p>
             </div>
             <?php endif; ?>
             <?php if (!empty($prog['contact'])): ?>
             <div class="program-info-card">
-              <div class="icon"><i class="fa-solid fa-envelope"></i></div>
               <h4>Get in Touch</h4>
               <p><?= htmlspecialchars($prog['contact']) ?></p>
             </div>
