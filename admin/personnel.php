@@ -13,8 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         $personnel = array_values(array_filter($personnel, fn($p) => $p['id'] !== $id));
-        cms_save('personnel.json', $personnel);
-        flash_set('success','Personnel deleted.');
+        cms_save_flash('personnel.json', $personnel, 'Personnel deleted.');
         header('Location: personnel.php'); exit;
     }
 
@@ -51,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } unset($p);
             flash_set('success','Personnel updated.');
         }
-        cms_save('personnel.json', $personnel);
+        cms_save_checked('personnel.json', $personnel);
         header('Location: personnel.php'); exit;
     }
 }

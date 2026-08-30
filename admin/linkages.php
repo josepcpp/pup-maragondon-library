@@ -19,8 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['cta_title']       = trim($_POST['cta_title']       ?? '');
         $data['cta_description'] = trim($_POST['cta_description'] ?? '');
         $data['contact_email']   = trim($_POST['contact_email']   ?? '');
-        cms_save('linkages.json', $data);
-        flash_set('success','Text content updated.');
+        cms_save_flash('linkages.json', $data, 'Text content updated.');
         header('Location: linkages.php#text'); exit;
     }
 
@@ -28,8 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete_card') {
         $id = (int)($_POST['id'] ?? 0);
         $data['cards'] = array_values(array_filter($cards, fn($c) => $c['id'] !== $id));
-        cms_save('linkages.json', $data);
-        flash_set('success','Card deleted.');
+        cms_save_flash('linkages.json', $data, 'Card deleted.');
         header('Location: linkages.php#cards'); exit;
     }
 
@@ -52,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } unset($c);
             flash_set('success','Card updated.');
         }
-        cms_save('linkages.json', $data);
+        cms_save_checked('linkages.json', $data);
         header('Location: linkages.php#cards'); exit;
     }
 }

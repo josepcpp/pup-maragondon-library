@@ -4,10 +4,23 @@ define('DEFAULT_ADMIN_USER', 'admin');
 define('DEFAULT_ADMIN_PASS', 'admin123');
 
 // Absolute paths
-define('BASE_PATH',   realpath(__DIR__ . '/..'));
-define('DATA_PATH',   BASE_PATH . '/data/');
-define('UPLOAD_PATH', BASE_PATH . '/assets/uploads/');
-define('CRED_FILE',   DATA_PATH . 'admin_credentials.json');
+define('BASE_PATH',     realpath(__DIR__ . '/..'));
+define('DATA_PATH',     BASE_PATH . '/data/');
+define('VERSIONS_PATH', DATA_PATH . '_versions/');
+define('UPLOAD_PATH',   BASE_PATH . '/assets/uploads/');
+define('CRED_FILE',     DATA_PATH . 'admin_credentials.json');
+
+// Content files eligible for versioning. This is an allowlist, not a scan:
+// admin_credentials.json must never be snapshotted, and an unknown name
+// arriving from a request must never reach the filesystem.
+define('CMS_CONTENT_FILES', [
+    'about.json', 'arrivals.json', 'featured.json', 'guidelines.json',
+    'holdings.json', 'linkages.json', 'personnel.json', 'programs.json',
+    'resources.json', 'services.json', 'settings.json',
+]);
+
+// How many previous versions to keep per content file.
+define('CMS_VERSIONS_KEPT', 5);
 
 // Session config
 define('SESSION_TIMEOUT',    7200);
@@ -74,6 +87,11 @@ function cms_save(string $file, array $data): bool {
     $fh = fopen($lock, 'c');
     if (!$fh) return false;
     flock($fh, LOCK_EX);
+
+    // Snapshot the file as it stands before replacing it, inside the lock so
+    // the copy is of content no other writer is midway through changing.
+    cms_snapshot($file);
+
     $ok = file_put_contents($tmp, $json) !== false && rename($tmp, $path);
     flock($fh, LOCK_UN);
     fclose($fh);
@@ -86,6 +104,127 @@ function cms_save(string $file, array $data): bool {
 function cms_next_id(array $items): int {
     if (empty($items)) return 1;
     return max(array_column($items, 'id')) + 1;
+}
+
+// ── Version history ───────────────────────────────────────────────
+// Every save copies the outgoing file into data/_versions/ first, so a bad
+// edit is always one click from being undone. Names are
+// <stem>.<Ymd-His>.json, which sorts chronologically.
+
+function cms_versions_dir(): bool {
+    if (is_dir(VERSIONS_PATH)) return true;
+    if (!mkdir(VERSIONS_PATH, 0755, true) && !is_dir(VERSIONS_PATH)) {
+        error_log('cms: cannot create ' . VERSIONS_PATH);
+        return false;
+    }
+    // data/.htaccess already denies the whole tree; this is belt and braces
+    // in case the parent rule is ever loosened.
+    @file_put_contents(VERSIONS_PATH . '.htaccess', "Order Allow,Deny\nDeny from all\n");
+    return true;
+}
+
+/** Copy the current on-disk content of $file into the version store. */
+function cms_snapshot(string $file): bool {
+    if (!in_array($file, CMS_CONTENT_FILES, true)) return false;
+
+    $path = DATA_PATH . $file;
+    if (!is_file($path)) return false;               // nothing saved yet
+
+    $current = @file_get_contents($path);
+    if ($current === false || trim($current) === '') return false;
+
+    if (!cms_versions_dir()) return false;
+
+    // Don't stack identical snapshots — a save that changes nothing, or a
+    // form submitted twice, should not push real history out of the window.
+    $existing = cms_versions($file);
+    if ($existing && @file_get_contents(VERSIONS_PATH . $existing[0]['name']) === $current) {
+        return true;
+    }
+
+    // Timestamp to the microsecond. An earlier version of this used a
+    // collision counter, which broke: pruning frees a low number and the next
+    // snapshot reuses it, so a brand new file sorts as the oldest. A clock
+    // reading is never recycled.
+    $stem  = pathinfo($file, PATHINFO_FILENAME);
+    $dt    = DateTime::createFromFormat('U.u', sprintf('%.6F', microtime(true)));
+    $day   = $dt->format('Ymd-His');
+    $micro = (int)$dt->format('u');
+
+    $name = $stem . '.' . $day . '-' . str_pad((string)$micro, 6, '0', STR_PAD_LEFT) . '.json';
+    while (file_exists(VERSIONS_PATH . $name) && $micro < 999999) {
+        $micro++;
+        $name = $stem . '.' . $day . '-' . str_pad((string)$micro, 6, '0', STR_PAD_LEFT) . '.json';
+    }
+
+    if (@file_put_contents(VERSIONS_PATH . $name, $current) === false) {
+        error_log('cms_snapshot: failed writing ' . $name);
+        return false;
+    }
+    cms_prune_versions($file);
+    return true;
+}
+
+/** Versions of $file, newest first. */
+function cms_versions(string $file): array {
+    if (!in_array($file, CMS_CONTENT_FILES, true)) return [];
+    if (!is_dir(VERSIONS_PATH)) return [];
+
+    $stem = pathinfo($file, PATHINFO_FILENAME);
+    $re   = '/^' . preg_quote($stem, '/') . '\.(\d{8}-\d{6})(?:-(\d{1,6}))?\.json$/';
+    $out  = [];
+
+    foreach (glob(VERSIONS_PATH . $stem . '.*.json') ?: [] as $p) {
+        $name = basename($p);
+        if (!preg_match($re, $name, $m)) continue;
+        $dt = DateTime::createFromFormat('Ymd-His', $m[1]);
+        if (!$dt) continue;
+        $out[] = [
+            'name'     => $name,
+            'saved_at' => $dt->getTimestamp(),
+            'micro'    => isset($m[2]) ? (int)$m[2] : 0,
+            'size'     => (int)@filesize($p),
+        ];
+    }
+
+    // Order on the parsed clock reading, never on the filename string.
+    usort($out, fn($a, $b) => [$b['saved_at'], $b['micro']] <=> [$a['saved_at'], $a['micro']]);
+    return $out;
+}
+
+function cms_prune_versions(string $file, int $keep = CMS_VERSIONS_KEPT): void {
+    foreach (array_slice(cms_versions($file), $keep) as $old) {
+        @unlink(VERSIONS_PATH . $old['name']);
+    }
+}
+
+/** Absolute path of a version file, or '' if $version is not a real one. */
+function cms_version_path(string $file, string $version): string {
+    if (!in_array($file, CMS_CONTENT_FILES, true)) return '';
+
+    $stem = pathinfo($file, PATHINFO_FILENAME);
+    if (!preg_match('/^' . preg_quote($stem, '/') . '\.\d{8}-\d{6}(?:-\d+)?\.json$/', $version)) {
+        return '';
+    }
+
+    $abs = realpath(VERSIONS_PATH . $version);
+    $dir = realpath(VERSIONS_PATH);
+    if (!$abs || !$dir || strpos($abs, $dir) !== 0 || !is_file($abs)) return '';
+    return $abs;
+}
+
+/**
+ * Roll $file back to $version. The rollback runs through cms_save(), so the
+ * state being replaced is snapshotted too — restoring is itself undoable.
+ */
+function cms_restore(string $file, string $version): bool {
+    $abs = cms_version_path($file, $version);
+    if ($abs === '') return false;
+
+    $data = json_decode((string)@file_get_contents($abs), true);
+    if (!is_array($data)) return false;
+
+    return cms_save($file, $data);
 }
 
 // ── CSRF ──────────────────────────────────────────────────────────

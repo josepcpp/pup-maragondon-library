@@ -43,8 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'youtube'  => $safe_url($_POST['social_youtube']  ?? ''),
             'twitter'  => $safe_url($_POST['social_twitter']  ?? ''),
         ];
-        cms_save('settings.json', $settings);
-        flash_set('success','Settings saved.');
+        cms_save_flash('settings.json', $settings, 'Settings saved.');
         header('Location: settings.php'); exit;
     }
 
@@ -58,8 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $hero[] = ['num' => trim($nums[$i]), 'label' => trim($labels[$i])];
         }
         $settings['hero_stats'] = $hero;
-        cms_save('settings.json', $settings);
-        flash_set('success','Hero stats saved.');
+        cms_save_flash('settings.json', $settings, 'Hero stats saved.');
         header('Location: settings.php#hero-stats'); exit;
     }
 
@@ -78,8 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
         }
         $settings['counter_stats'] = $counter;
-        cms_save('settings.json', $settings);
-        flash_set('success','Counter stats saved.');
+        cms_save_flash('settings.json', $settings, 'Counter stats saved.');
         header('Location: settings.php#counter-stats'); exit;
     }
 

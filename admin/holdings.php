@@ -27,8 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
         }
         $holdings['stats'] = $new_stats;
-        cms_save('holdings.json', $holdings);
-        flash_set('success', 'Stats updated.');
+        cms_save_flash('holdings.json', $holdings, 'Stats updated.');
         header('Location: holdings.php'); exit;
     }
 
@@ -50,8 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
         }
         $holdings['categories'] = $new_cats;
-        cms_save('holdings.json', $holdings);
-        flash_set('success', 'Categories updated.');
+        cms_save_flash('holdings.json', $holdings, 'Categories updated.');
         header('Location: holdings.php'); exit;
     }
 }

@@ -28,8 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'image'       => $image,
         'updated'     => date('Y-m-d'),
     ];
-    cms_save('featured.json', $featured);
-    flash_set('success', 'Featured resource updated.');
+    cms_save_flash('featured.json', $featured, 'Featured resource updated.');
     header('Location: featured.php'); exit;
 }
 

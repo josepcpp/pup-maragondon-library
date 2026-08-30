@@ -13,8 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         $programs = array_values(array_filter($programs, fn($p) => $p['id'] !== $id));
-        cms_save('programs.json', $programs);
-        flash_set('success','Program deleted.');
+        cms_save_flash('programs.json', $programs, 'Program deleted.');
         header('Location: programs.php'); exit;
     }
 
@@ -80,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } unset($p);
             flash_set('success','Program updated.');
         }
-        cms_save('programs.json', $programs);
+        cms_save_checked('programs.json', $programs);
         header('Location: programs.php'); exit;
     }
 }

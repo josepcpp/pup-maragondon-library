@@ -128,6 +128,11 @@ $flash_warning = flash_get('warning');
         </a>
       </li>
       <li>
+        <a href="history.php" class="<?= $active_nav === 'history' ? 'active' : '' ?>">
+          <i class="nav-icon fa-solid fa-clock-rotate-left"></i> Version History
+        </a>
+      </li>
+      <li>
         <a href="manual.php" class="<?= $active_nav === 'manual' ? 'active' : '' ?>">
           <i class="nav-icon fa-solid fa-book-open"></i> Admin Manual
         </a>

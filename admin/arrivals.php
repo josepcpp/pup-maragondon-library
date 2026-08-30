@@ -15,8 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         $arrivals = array_values(array_filter($arrivals, fn($a) => $a['id'] !== $id));
-        cms_save('arrivals.json', $arrivals);
-        flash_set('success', 'Arrival deleted.');
+        cms_save_flash('arrivals.json', $arrivals, 'Arrival deleted.');
         header('Location: arrivals.php'); exit;
     }
 
@@ -51,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } unset($a);
             flash_set('success', 'Arrival updated.');
         }
-        cms_save('arrivals.json', $arrivals);
+        cms_save_checked('arrivals.json', $arrivals);
         header('Location: arrivals.php'); exit;
     }
 }

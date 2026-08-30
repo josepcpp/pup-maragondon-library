@@ -13,8 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         $services = array_values(array_filter($services, fn($s) => $s['id'] !== $id));
-        cms_save('services.json', $services);
-        flash_set('success','Service deleted.');
+        cms_save_flash('services.json', $services, 'Service deleted.');
         header('Location: services.php'); exit;
     }
 
@@ -63,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } unset($s);
             flash_set('success','Service updated.');
         }
-        cms_save('services.json', $services);
+        cms_save_checked('services.json', $services);
         header('Location: services.php'); exit;
     }
 
@@ -73,8 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach ($services as $s) $indexed[$s['id']] = $s;
         $reordered = [];
         foreach ($order as $oid) { if (isset($indexed[$oid])) $reordered[] = $indexed[$oid]; }
-        cms_save('services.json', $reordered);
-        flash_set('success','Order saved.');
+        cms_save_flash('services.json', $reordered, 'Order saved.');
         header('Location: services.php'); exit;
     }
 }

@@ -15,8 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data['vgmo']['vision']     = trim($_POST['vision'] ?? '');
         $data['vgmo']['goals']      = array_values(array_filter(array_map('trim', $_POST['goals'] ?? []), 'strlen'));
         $data['vgmo']['objectives'] = array_values(array_filter(array_map('trim', $_POST['objectives'] ?? []), 'strlen'));
-        cms_save('about.json', $data);
-        flash_set('success','VGMO content updated.');
+        cms_save_flash('about.json', $data, 'VGMO content updated.');
         header('Location: about.php#vgmo'); exit;
     }
 
@@ -35,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
         }
         $data['schedule'] = $schedule;
-        cms_save('about.json', $data);
-        flash_set('success','Library hours updated.');
+        cms_save_flash('about.json', $data, 'Library hours updated.');
         header('Location: about.php#hours'); exit;
     }
 
@@ -44,8 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete_event') {
         $id = (int)($_POST['id'] ?? 0);
         $data['timeline'] = array_values(array_filter($data['timeline'] ?? [], fn($e) => $e['id'] !== $id));
-        cms_save('about.json', $data);
-        flash_set('success','Timeline event deleted.');
+        cms_save_flash('about.json', $data, 'Timeline event deleted.');
         header('Location: about.php#timeline'); exit;
     }
 
@@ -67,8 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             foreach ($tl as &$e) { if ($e['id'] === $id) { $event['id'] = $id; $e = $event; break; } } unset($e);
         }
         $data['timeline'] = $tl;
-        cms_save('about.json', $data);
-        flash_set('success','Timeline event saved.');
+        cms_save_flash('about.json', $data, 'Timeline event saved.');
         header('Location: about.php#timeline'); exit;
     }
 }

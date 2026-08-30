@@ -13,8 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         $rules = array_values(array_filter($rules, fn($r) => $r['id'] !== $id));
-        cms_save('guidelines.json', $rules);
-        flash_set('success','Rule deleted.');
+        cms_save_flash('guidelines.json', $rules, 'Rule deleted.');
         header('Location: guidelines.php'); exit;
     }
 
@@ -44,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } unset($r);
             flash_set('success','Rule updated.');
         }
-        cms_save('guidelines.json', $rules);
+        cms_save_checked('guidelines.json', $rules);
         header('Location: guidelines.php'); exit;
     }
 }

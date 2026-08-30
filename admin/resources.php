@@ -13,8 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         $resources = array_values(array_filter($resources, fn($r) => $r['id'] !== $id));
-        cms_save('resources.json', $resources);
-        flash_set('success','Resource deleted.');
+        cms_save_flash('resources.json', $resources, 'Resource deleted.');
         header('Location: resources.php'); exit;
     }
 
@@ -48,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } unset($r);
             flash_set('success','Resource updated.');
         }
-        cms_save('resources.json', $resources);
+        cms_save_checked('resources.json', $resources);
         header('Location: resources.php'); exit;
     }
 }

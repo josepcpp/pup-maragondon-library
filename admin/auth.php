@@ -49,6 +49,31 @@ function admin_url(string $page = ''): string {
     return $base . '/' . ltrim($page, '/');
 }
 
+/**
+ * Save content and report the real outcome.
+ *
+ * cms_save() can legitimately fail — unencodable content, a full disk, a
+ * permissions problem. Call sites used to ignore the return value and flash
+ * "saved" regardless, so a failed write looked identical to a successful one.
+ */
+function cms_save_flash(string $file, array $data, string $success_msg): bool {
+    if (!cms_save_checked($file, $data)) return false;
+    flash_set('success', $success_msg);
+    return true;
+}
+
+/**
+ * Same, for the add/update branches that decide their success wording before
+ * the save runs. On failure the queued "added"/"updated" message is retracted,
+ * so the user never sees a success and an error side by side.
+ */
+function cms_save_checked(string $file, array $data): bool {
+    if (cms_save($file, $data)) return true;
+    unset($_SESSION['flash_success']);
+    flash_set('error', 'Could not save — your content was left unchanged. Check the server error log for details.');
+    return false;
+}
+
 // Flash message helpers
 function flash_set(string $key, string $msg): void {
     $_SESSION['flash_' . $key] = $msg;
