@@ -61,8 +61,17 @@ function cms_save(string $file, array $data): bool {
     $path = DATA_PATH . $file;
     $lock = $path . '.lock';
     $tmp  = $path . '.tmp';
+
+    // json_encode() returns false on malformed UTF-8. Writing that would put an
+    // empty string on disk and still report success, replacing good content
+    // with nothing — so refuse before opening anything.
     $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-    $fh   = fopen($lock, 'c');
+    if ($json === false) {
+        error_log('cms_save: json_encode failed for ' . $file . ' — ' . json_last_error_msg());
+        return false;
+    }
+
+    $fh = fopen($lock, 'c');
     if (!$fh) return false;
     flock($fh, LOCK_EX);
     $ok = file_put_contents($tmp, $json) !== false && rename($tmp, $path);
