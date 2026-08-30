@@ -1,0 +1,88 @@
+[
+  {
+    "id": 1,
+    "icon": "fa-solid fa-gavel",
+    "title": "General Rules",
+    "open": true,
+    "intro": "",
+    "type": "list",
+    "items": [
+      "The PUP ID is required and should be pinned while inside the University premises.",
+      "Library Account Number is required when borrowing materials.",
+      "Appointment is required for all those who want to visit the library.",
+      "An accomplished Health Declaration Form is required upon entry in the building.",
+      "Proper attire is to be observed. Attire must conform to standards of decency.",
+      "All users must silence or turn off their cell phones while in the library. No cell phone conversations are permitted.",
+      "The use of laptops is allowed, although the library provides a limited number of computers for public use.",
+      "Mutilation and defacing of a book or any other library resources, vandalism, and damaging of any library property shall be punishable by suspension or expulsion.",
+      "Loud conversations, laughter, smoking, playing games, littering, and display of public affection are strictly prohibited."
+    ]
+  },
+  {
+    "id": 2,
+    "icon": "fa-solid fa-book-open",
+    "title": "Borrowing & Returning — Fiction Books",
+    "open": false,
+    "intro": "Fiction books may be borrowed and taken out for a week. The books may be renewed for another week.",
+    "type": "list",
+    "items": [
+      "All library materials borrowed under the name of a particular borrower shall be the registered borrower's responsibility.",
+      "The borrower shall clear himself/herself of his/her accountabilities at the end of each semester or summer session."
+    ]
+  },
+  {
+    "id": 3,
+    "icon": "fa-solid fa-book",
+    "title": "Borrowing & Returning — General References",
+    "open": false,
+    "intro": "Reference materials, serials, special collections, theses, dissertations, and nonprint resources are for Room-use only.",
+    "type": "list",
+    "items": [
+      "Graduate School and College of Law resources may be borrowed for two (2) days depending upon the availability of copies."
+    ]
+  },
+  {
+    "id": 4,
+    "icon": "fa-solid fa-laptop",
+    "title": "Guidelines on the Use of E-Library",
+    "open": false,
+    "intro": "The PUP-CLFI e-Learning Center provides free use of computers for online searching. The following rules are to be followed:",
+    "type": "list",
+    "items": [
+      "Each bona fide user is required to register at the counter and should present their ID and/or current Registration Card with picture upon entering the facility.",
+      "Users are not allowed to view pornography and play games with the computer.",
+      "Users are required to observe silence and courtesy during their stay in the area.",
+      "Eating, drinking, laughing, sleeping and other disruptive behavior are prohibited inside the area.",
+      "Proper dress code is required.",
+      "Only one person or user is allowed per computer in the internet workstation.",
+      "Borrowers will be held responsible for any damage on the equipment issued to them."
+    ]
+  },
+  {
+    "id": 5,
+    "icon": "fa-solid fa-id-card",
+    "title": "Library Privileges & Membership",
+    "open": false,
+    "intro": "The following may avail of the library services:",
+    "type": "list",
+    "items": [
+      "All bona fide students of the Polytechnic University of the Philippines.",
+      "All administrators, faculty and employees of PUP.",
+      "Alumni of the Polytechnic University of the Philippines.",
+      "Researchers from other institutions.",
+      "Friends of the PUP Libraries."
+    ]
+  },
+  {
+    "id": 6,
+    "icon": "fa-solid fa-file-circle-check",
+    "title": "Library Clearance",
+    "open": false,
+    "intro": "The following are required to secure a clearance from the University Library:",
+    "type": "list",
+    "items": [
+      "University officials, faculty and administrative personnel applying for sick/vacation/sabbatical leaves, resignation, retirement.",
+      "Students applying for graduation, and honorable dismissal, as well as returning students and the like."
+    ]
+  }
+]

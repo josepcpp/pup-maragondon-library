@@ -1,0 +1,14 @@
+{
+  "intro": "The PUP University Library promotes collaboration with local and international community agencies and organizations to foster cooperation, making efficient and effective use of library resources.",
+  "cards": [
+    {"id": 1, "icon": "fa-solid fa-university",    "title": "PUP University Library",          "description": "The central hub coordinating various divisions and unit libraries to provide comprehensive services across the entire university system."},
+    {"id": 2, "icon": "fa-solid fa-network-wired", "title": "Local & International Agencies",  "description": "Collaborating with community organizations to foster cooperation and maximize the impact of library resources."},
+    {"id": 3, "icon": "fa-solid fa-globe",         "title": "Branch and Campus Libraries",     "description": "Coordinated support and management for various satellite libraries including NCR, Region III, Region IV-A, Region IV-B, and Region V."},
+    {"id": 4, "icon": "fa-solid fa-handshake",     "title": "Academic Community",              "description": "Strengthening ties with faculty, students, and administrative personnel to support diverse research and curricular needs."}
+  ],
+  "mou_title": "Memoranda of Agreement",
+  "mou_description": "Formal collaborations and coordination with various campus branches and community agencies allow the library to expand its reach and service capabilities effectively.",
+  "cta_title": "Want to Partner With Us?",
+  "cta_description": "The PUP University Library is committed to fostering cooperation with local and international agencies/organizations to make efficient and effective use of library resources.",
+  "contact_email": "library@pup.edu.ph"
+}

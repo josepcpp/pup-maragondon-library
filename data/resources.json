@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Emerald Insight",
+    "logo": "assets/logos/emeraldinsightlogo.png",
+    "description": "Provides access to high-quality research from the world's leading journals and books in business, management, and more.",
+    "url": "https://www.emerald.com/insight/",
+    "category": "Academic"
+  },
+  {
+    "id": 2,
+    "name": "Gale Databases",
+    "logo": "assets/logos/galedatabselogo.jpg",
+    "description": "Multidisciplinary database offering access to academic journals, magazines, newspapers, and reference books.",
+    "url": "https://www.gale.com/",
+    "category": "Academic"
+  },
+  {
+    "id": 3,
+    "name": "ProQuest",
+    "logo": "assets/logos/proquestlogo.png",
+    "description": "Extensive collection of dissertations, theses, e-books, journals, and newspapers across disciplines.",
+    "url": "https://www.proquest.com/",
+    "category": "Academic"
+  },
+  {
+    "id": 4,
+    "name": "iG Library",
+    "logo": "assets/logos/iglibrarylogo.png",
+    "description": "Access to a wide range of e-books and digital publications across various subject areas.",
+    "url": "#",
+    "category": "E-Books"
+  },
+  {
+    "id": 5,
+    "name": "PressReader",
+    "logo": "assets/logos/PressReader-logo-stacked.png",
+    "description": "Access to thousands of newspapers and magazines from around the world in full-color digital format.",
+    "url": "https://www.pressreader.com/",
+    "category": "News & Periodicals"
+  }
+]

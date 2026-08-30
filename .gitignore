@@ -1,0 +1,33 @@
+# ── Secrets ─────────────────────────────────────────────────────────
+# Contains the admin username and bcrypt password hash. Never commit.
+data/admin_credentials.json
+data/login-attempts.json
+
+# ── Local working copies ────────────────────────────────────────────
+_backup_pre_rework/
+*.bak
+*.tmp
+*.orig
+
+# ── CMS runtime artefacts ───────────────────────────────────────────
+# Atomic-write lock/temp files produced by cms_save()
+data/*.lock
+data/*.json.tmp
+
+# ── Uploaded media ──────────────────────────────────────────────────
+# Uploads are site content, managed through the CMS, not source.
+assets/uploads/**
+!assets/uploads/**/.gitkeep
+
+# ── Logs & OS noise ─────────────────────────────────────────────────
+*.log
+error_log
+php_errors.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp

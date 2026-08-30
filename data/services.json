@@ -1,0 +1,55 @@
+[
+  {
+    "id": 1,
+    "tab_id": "circulation",
+    "icon": "fa-solid fa-rotate",
+    "title": "Circulation Section",
+    "description": "This section is responsible for the checking out and checking in of the materials, management of collection and other related services to users. The following are the major functions of the Section: Circulation Desk Activities, renewals, hold & recalls, book reserves, notifying and searching items, and user assistance.",
+    "image": "assets/images/circulation.jpg",
+    "items": [
+      {"icon": "fa-solid fa-arrow-right-from-bracket", "title": "Book Lending", "description": "Fiction books may be borrowed and taken out for a week. The books may be renewed for another week. University officials, faculty members, and academic and administrative personnel shall be restricted to a one-week loan period depending on the availability of copies."},
+      {"icon": "fa-solid fa-arrow-right-to-bracket", "title": "Book Return", "description": "Borrowers are advised to drop items at the designated bin or book drops. If the borrowers want to return the borrowed materials directly to the counter, they are allowed to do so."},
+      {"icon": "fa-solid fa-rotate", "title": "Renewal", "description": "Students and Faculty can renew borrowed books via the University Library email (library@pup.edu.ph) or message the Facebook Page of the library. There are allotted 3 copies with different titles for the renewal of the borrowed library materials per library user."},
+      {"icon": "fa-solid fa-triangle-exclamation", "title": "Overdue & Fines", "description": "Library resources not returned on the due date shall be subject to fines until they are returned. A fine of fifty (php50.00) pesos per day except Sundays, holidays, and fortuitous events is charged for resources kept overdue."}
+    ]
+  },
+  {
+    "id": 2,
+    "tab_id": "reference",
+    "icon": "fa-solid fa-magnifying-glass-chart",
+    "title": "Reference Section",
+    "description": "This Section is responsible for the checking out and checking in of the materials, management of collection and other related services to users. It also houses the general reference materials like atlas and maps, dictionaries, encyclopedias, bibliographies, research handbooks and guides, catalogs, and directories.",
+    "image": "assets/images/reference.jpg",
+    "items": [
+      {"icon": "fa-solid fa-person-chalkboard", "title": "Research Assistance", "description": "Librarians assist patrons in finding information, locating resources, and navigating databases. This includes providing answers to questions about the location of materials and services provided within the PUP Libraries."},
+      {"icon": "fa-solid fa-database", "title": "Database Navigation", "description": "Guidance on using online databases such as Emerald Insight, ProQuest, and Gale."},
+      {"icon": "fa-solid fa-book-open-reader", "title": "Reader's Advisory", "description": "Personalized recommendations and assistance to meet individual library needs and problems with the Librarian on desk."}
+    ]
+  },
+  {
+    "id": 3,
+    "tab_id": "filipiniana",
+    "icon": "fa-solid fa-flag",
+    "title": "Filipiniana Section",
+    "description": "This Section organizes, and preserves all forms of Filipiniana collections regarding the Philippines and the peoples and culture of the Philippines regardless of author, imprint and language. It prepares guides to the various collections to facilitate easy access and retrieval.",
+    "image": "assets/images/filipiniana.jpg",
+    "items": [
+      {"icon": "fa-solid fa-flag", "title": "Philippine Literature", "description": "Collection of Filipino literary works including novels, poetry, and short stories in Filipino and English."},
+      {"icon": "fa-solid fa-landmark", "title": "History & Culture", "description": "Historical documents, cultural studies, and materials on Philippine heritage and traditions."},
+      {"icon": "fa-solid fa-scroll", "title": "Government Documents", "description": "Official publications from Philippine government agencies and local government units."}
+    ]
+  },
+  {
+    "id": 4,
+    "tab_id": "periodical",
+    "icon": "fa-solid fa-newspaper",
+    "title": "Periodical Section",
+    "description": "This Section is responsible for all functions related to obtaining and making serials available in the library. These include: Indexing of newspapers/journals, claiming unreceived issues, binding and maintaining holdings records in the Library Catalog.",
+    "image": "assets/images/periodical.jpg",
+    "items": [
+      {"icon": "fa-solid fa-newspaper", "title": "Newspapers", "description": "Current and back issues of major national and local newspapers available for reading in the library."},
+      {"icon": "fa-solid fa-journal-whills", "title": "Academic Journals", "description": "Scholarly journals across multiple disciplines. Older issues may be available in bound volumes."},
+      {"icon": "fa-solid fa-magazine", "title": "Magazines", "description": "General interest and specialized magazines covering current events, science, technology, and more."}
+    ]
+  }
+]

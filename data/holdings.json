@@ -1,0 +1,38 @@
+{
+  "stats": [
+    { "target": 8500, "suffix": "+", "label": "Circulation Books" },
+    { "target": 1200, "suffix": "+", "label": "Filipiniana Books" },
+    { "target": 650,  "suffix": "+", "label": "Fiction Titles" },
+    { "target": 180,  "suffix": "+", "label": "New Arrivals (2026)" }
+  ],
+  "categories": [
+    {
+      "num": 1,
+      "icon": "fa-solid fa-book",
+      "title": "Circulation Books",
+      "description": "General lending collection comprising textbooks and supplementary readings across all disciplines to support curricular offerings.",
+      "tag": "General Lending"
+    },
+    {
+      "num": 2,
+      "icon": "fa-solid fa-flag",
+      "title": "Filipiniana Books",
+      "description": "Organized and preserved collection regarding the Philippines and its people, culture, and history regardless of author or language.",
+      "tag": "Special Collection"
+    },
+    {
+      "num": 3,
+      "icon": "fa-solid fa-book-open",
+      "title": "Fiction Books",
+      "description": "A collection of novels and literary works available for borrowing to encourage recreational reading among students.",
+      "tag": "Recreational Reading"
+    },
+    {
+      "num": 4,
+      "icon": "fa-solid fa-star",
+      "title": "Special Collections",
+      "description": "Includes archival materials, theses, dissertations, artifacts, memorabilia, and other relevant records and collections.",
+      "tag": "Special Collection"
+    }
+  ]
+}

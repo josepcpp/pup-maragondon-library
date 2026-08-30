@@ -1,0 +1,34 @@
+{
+  "vgmo": {
+    "mission": "Guided by the PUP philosophy, the PUP University Library is committed to provide a user-centered approach in all aspects of its programs and services. The library herewith outlined goals and corresponding strategies that would satisfy the needs of its clienteles in both physical and online environments and to mold them to become lifelong learners and more responsible citizens.",
+    "vision": "The PUP University Library envisions itself as an excellent library and information center that provides quality services and programs for the academic and professional development of its clientele in the global information society.",
+    "goals": [
+      "Satisfy the needs of its clienteles in both physical and online environments.",
+      "Mold learners to become lifelong learners and more responsible citizens.",
+      "Provide a user-centered approach in all aspects of its programs and services.",
+      "Implement outlined goals and corresponding strategies."
+    ],
+    "objectives": [
+      "Serve the needs of our clienteles as its gateway to the global information society.",
+      "Provide customer-oriented assistance in selecting, locating and using resources.",
+      "Develop and increase as needed a quality staff in the service and operations of the library.",
+      "Promote collaboration with local and international community agencies/organizations.",
+      "Maintain, conserve, and preserve the physical feature of the library holdings."
+    ]
+  },
+  "hours_note": "The University Library observes a NO NOON BREAK policy.",
+  "schedule": [
+    {"day": "Monday",    "day_num": 1, "time": "8:00 AM – 8:00 PM", "open": true},
+    {"day": "Tuesday",   "day_num": 2, "time": "8:00 AM – 8:00 PM", "open": true},
+    {"day": "Wednesday", "day_num": 3, "time": "8:00 AM – 8:00 PM", "open": true},
+    {"day": "Thursday",  "day_num": 4, "time": "8:00 AM – 8:00 PM", "open": true},
+    {"day": "Friday",    "day_num": 5, "time": "8:00 AM – 8:00 PM", "open": true},
+    {"day": "Saturday",  "day_num": 6, "time": "8:00 AM – 5:00 PM", "open": true},
+    {"day": "Sunday",    "day_num": 0, "time": "Closed", "open": false}
+  ],
+  "timeline": [
+    {"id": 1, "year": "1987", "title": "Founding", "description": "The PUP Maragondon Campus Library established, beginning its mission to serve the academic community.", "detail": "The library was founded alongside the Maragondon Campus to provide essential academic resources to students and faculty of the Polytechnic University of the Philippines."},
+    {"id": 2, "year": "2000s", "title": "Digitalization", "description": "Expansion of digital collections and introduction of electronic library services and online databases.", "detail": "The library began its digital transformation, incorporating electronic resources, online databases, and computerized catalog systems to better serve the PUP community."},
+    {"id": 3, "year": "2023", "title": "Modern Operations", "description": "Implementation of the current Manual of Operations and professionalized library management standards.", "detail": "Current operational standards and professionalized management practices were formalized, ensuring world-class library services for the PUP Maragondon community."}
+  ]
+}

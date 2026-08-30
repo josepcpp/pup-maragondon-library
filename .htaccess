@@ -1,0 +1,30 @@
+Options -Indexes
+DirectoryIndex index.php index.html
+
+# ── Custom error page ──────────────────────────────────────────────
+ErrorDocument 404 /library-website1/404.php
+
+# ── PHP production settings ────────────────────────────────────────
+php_flag  display_errors Off
+php_value error_reporting 32767
+php_flag  log_errors     On
+
+# ── Security headers ───────────────────────────────────────────────
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+RewriteEngine On
+
+# Redirect .html requests to .php if a .php version exists
+RewriteCond %{REQUEST_URI} ^/library-website1/(.+)\.html$
+RewriteCond %{DOCUMENT_ROOT}/library-website1/%1.php -f
+RewriteRule ^(.+)\.html$ %{REQUEST_URI:r}.php [R=301,L]
+
+# Generic fallback for root requests
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.+)\.html$ $1.php [R=301,L]

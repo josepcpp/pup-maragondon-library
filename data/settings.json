@@ -1,0 +1,58 @@
+{
+    "site_title": "PUP Maragondon – Digital Library",
+    "hero_tagline": "Your gateway to PUP Maragondon's digital resources, theses, Filipiniana, and multimedia collections — available anytime, anywhere.",
+    "hero_stats": [
+        {
+            "num": "8,500+",
+            "label": "Books"
+        },
+        {
+            "num": "3,500+",
+            "label": "Theses"
+        },
+        {
+            "num": "10+",
+            "label": "Databases"
+        },
+        {
+            "num": "2023",
+            "label": "Updated"
+        }
+    ],
+    "counter_stats": [
+        {
+            "target": 8500,
+            "suffix": "+",
+            "label": "Book Titles"
+        },
+        {
+            "target": 3500,
+            "suffix": "+",
+            "label": "Theses & Dissertations"
+        },
+        {
+            "target": 10,
+            "suffix": "",
+            "label": "Online Databases"
+        },
+        {
+            "target": 1200,
+            "suffix": "+",
+            "label": "Active Borrowers"
+        }
+    ],
+    "avp_youtube_id": "T53v0NejzI4",
+    "contact": {
+        "address": "Maragondon, Cavite, Philippines",
+        "hours": "Mon – Fri: 8:00 AM – 5:00 PM",
+        "email": "library.maragondon@pup.edu.ph",
+        "phone": "(046) 412 3312"
+    },
+    "social": {
+        "facebook": "",
+        "youtube": "",
+        "twitter": ""
+    },
+    "survey_url": "https://forms.gle/iJicqykCupxRXPy57",
+    "opac_url": "https://ils.pup.edu.ph/"
+}
